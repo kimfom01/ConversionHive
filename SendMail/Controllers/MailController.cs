@@ -1,7 +1,6 @@
-using System.Net.Mail;
-using FluentEmail.Core;
-using FluentEmail.Smtp;
 using Microsoft.AspNetCore.Mvc;
+using SendMail.Models;
+using SendMail.Services;
 
 namespace SendMail.Controllers;
 
@@ -9,28 +8,37 @@ namespace SendMail.Controllers;
 [Route("api/[controller]")]
 public class MailController : ControllerBase
 {
-    [HttpPost]
-    public async Task<IActionResult> SendMail()
+    private readonly Mailer _mailer;
+
+    public MailController(Mailer mailer)
     {
-        var sender = new SmtpSender(() => new SmtpClient("localhost")
+        _mailer = mailer;
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> SendMail(Mail mail)
+    {
+        // var sender = new SmtpSender(() => new SmtpClient("localhost")
+        // {
+        //     EnableSsl = true,
+        //     DeliveryMethod = SmtpDeliveryMethod.Network,
+        //     Port = 2525
+        // });
+
+        // Email.DefaultSender = sender;
+        //
+        // var sendResponse = await Email
+        //     .From(mail.Email, mail.Name)
+        //     .To("myemail@mydomain.com")
+        //     .Subject(mail.Subject)
+        //     .Body(mail.Body)
+        //     .SendAsync();
+
+        var sendResponse = await _mailer.SendMail(mail);
+
+        if (!sendResponse.Successful)
         {
-            EnableSsl = false,
-            DeliveryMethod = SmtpDeliveryMethod.Network,
-            Port = 2525
-        });
-
-        Email.DefaultSender = sender;
-
-        var email = await Email
-            .From("sender@test.com")
-            .To("receiver@test.com", "Receiver")
-            .Subject("Faking")
-            .Body("This is a test email")
-            .SendAsync();
-
-        if (!email.Successful)
-        {
-            return BadRequest(email.ErrorMessages);
+            return BadRequest(sendResponse.ErrorMessages);
         }
 
         return Ok("Email Successfully Sent!");
