@@ -5,6 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <PreserveCompilationContext>true</PreserveCompilationContext>
+        <UserSecretsId>a93604d3-e68c-4435-a379-37d8c021580e</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
