@@ -16,8 +16,11 @@ public class Mailer
 
     public Mailer(IConfiguration configuration)
     {
-        _username = configuration.GetSection("EmailCredentials:username").Value!;
-        _password = GetSecurePassword(configuration.GetSection("EmailCredentials:password").Value!);
+        _username = configuration.GetSection("EmailCredentials:username").Value ??
+                    Environment.GetEnvironmentVariable("USERNAME")!;
+        _password = GetSecurePassword(configuration.GetSection("EmailCredentials:password").Value ??
+                                      Environment.GetEnvironmentVariable("PASSWORD")!);
+
         _client = GetClient();
     }
 
@@ -32,7 +35,7 @@ public class Mailer
 
         return client;
     }
-    
+
     private SecureString GetSecurePassword(string password)
     {
         var secureString = new SecureString();
@@ -48,7 +51,7 @@ public class Mailer
     public async Task<SendResponse> SendMail(Mail mail)
     {
         var sender = new SmtpSender(() => _client);
-        
+
         Email.DefaultSender = sender;
 
         var sendResponse = await Email
