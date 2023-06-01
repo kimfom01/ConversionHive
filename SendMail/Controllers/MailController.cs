@@ -8,13 +8,13 @@ namespace SendMail.Controllers;
 [Route("api/[controller]")]
 public class MailController : ControllerBase
 {
-    private readonly Mailer _mailer;
+    private readonly IMailer _mailer;
 
-    public MailController(Mailer mailer)
+    public MailController(IMailer mailer)
     {
         _mailer = mailer;
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> SendMail(Mail mail)
     {
