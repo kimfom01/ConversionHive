@@ -20,9 +20,9 @@ public class MailController : ControllerBase
     {
         var sendResponse = await _mailer.SendMail(mail);
 
-        if (!sendResponse.Successful)
+        if (sendResponse is null || !sendResponse.Successful)
         {
-            return BadRequest(sendResponse.ErrorMessages);
+            return BadRequest(sendResponse?.ErrorMessages);
         }
 
         return Ok("Email Successfully Sent!");
