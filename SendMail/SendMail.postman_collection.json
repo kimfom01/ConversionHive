@@ -1,0 +1,38 @@
+{
+	"info": {
+		"_postman_id": "c4a18587-83c0-4aa0-8d3e-39250bf51307",
+		"name": "SendMail",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "SendMail",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"John Doe\",\r\n  \"email\": \"example@example.com\",\r\n  \"recipientEmail\": \"test@test.com\",\r\n  \"subject\": \"Email Subject\",\r\n  \"body\": \"This is the email body\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7214/api/Mail",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7214",
+					"path": [
+						"api",
+						"Mail"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
