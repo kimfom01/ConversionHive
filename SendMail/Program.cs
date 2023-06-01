@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<IMailer, Mailer>();
+builder.Services.AddScoped<IMailer, NetworkMailer>();
 
 var app = builder.Build();
 

@@ -8,25 +8,36 @@ using SendMail.Models;
 
 namespace SendMail.Services;
 
-public class Mailer : IMailer
+public class NetworkMailer : IMailer
 {
     private readonly string _username;
     private readonly SecureString _password;
+    private readonly string _host;
+    private readonly int _port;
     private readonly SmtpClient _client;
 
-    public Mailer(IConfiguration configuration)
+    public NetworkMailer(IConfiguration configuration)
     {
-        _username = configuration.GetSection("EmailCredentials:username").Value ??
-                    Environment.GetEnvironmentVariable("USERNAME")!;
-        _password = GetSecurePassword(configuration.GetSection("EmailCredentials:password").Value ??
-                                      Environment.GetEnvironmentVariable("PASSWORD")!);
+        _username = configuration.GetSection("EmailCredentials:username").Value
+                    ?? Environment.GetEnvironmentVariable("USERNAME")!;
+        _password = GetSecurePassword(configuration.GetSection("EmailCredentials:password").Value
+                    ?? Environment.GetEnvironmentVariable("PASSWORD")!);
+        _host = configuration.GetSection("EmailCredentials:host").Value
+                    ?? Environment.GetEnvironmentVariable("HOST")!;
+        var parsePortResult = int.TryParse(configuration.GetSection("EmailCredentials:port").Value
+                    ?? Environment.GetEnvironmentVariable("PORT"), out _port);
+
+        if (!parsePortResult)
+        {
+            throw new Exception("Invalid port value");
+        }
 
         _client = GetClient();
     }
 
     private SmtpClient GetClient()
     {
-        var client = new SmtpClient("smtp.gmail.com", 587)
+        var client = new SmtpClient(_host, _port)
         {
             Credentials = new NetworkCredential(_username, _password),
             EnableSsl = true,
