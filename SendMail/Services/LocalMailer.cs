@@ -12,16 +12,16 @@ public class LocalMailer : IMailer
     {
         var sender = new SmtpSender(() => new SmtpClient("localhost")
         {
-            EnableSsl = true,
+            EnableSsl = false,
             DeliveryMethod = SmtpDeliveryMethod.Network,
-            Port = 2525
+            Port = 25
         });
 
         Email.DefaultSender = sender;
 
         var sendResponse = await Email
             .From(mail.Email, mail.Name)
-            .To("myemail@mydomain.com")
+            .To(mail.RecipientEmail)
             .Subject(mail.Subject)
             .Body(mail.Body)
             .SendAsync();
