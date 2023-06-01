@@ -8,7 +8,7 @@ using SendMail.Models;
 
 namespace SendMail.Services;
 
-public class Mailer
+public class Mailer : IMailer
 {
     private readonly string _username;
     private readonly SecureString _password;
