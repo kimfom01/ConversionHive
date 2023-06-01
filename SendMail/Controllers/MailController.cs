@@ -18,22 +18,6 @@ public class MailController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> SendMail(Mail mail)
     {
-        // var sender = new SmtpSender(() => new SmtpClient("localhost")
-        // {
-        //     EnableSsl = true,
-        //     DeliveryMethod = SmtpDeliveryMethod.Network,
-        //     Port = 2525
-        // });
-
-        // Email.DefaultSender = sender;
-        //
-        // var sendResponse = await Email
-        //     .From(mail.Email, mail.Name)
-        //     .To("myemail@mydomain.com")
-        //     .Subject(mail.Subject)
-        //     .Body(mail.Body)
-        //     .SendAsync();
-
         var sendResponse = await _mailer.SendMail(mail);
 
         if (!sendResponse.Successful)
