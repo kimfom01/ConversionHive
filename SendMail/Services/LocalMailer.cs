@@ -8,16 +8,20 @@ namespace SendMail.Services;
 
 public class LocalMailer : IMailer
 {
-    public async Task<SendResponse?> SendMail(Mail mail)
+    private readonly SmtpSender _sender;
+    public LocalMailer()
     {
-        var sender = new SmtpSender(() => new SmtpClient("localhost")
+        _sender = new SmtpSender(() => new SmtpClient("localhost")
         {
             EnableSsl = false,
             DeliveryMethod = SmtpDeliveryMethod.Network,
             Port = 25
         });
-
-        Email.DefaultSender = sender;
+    }
+    
+    public async Task<SendResponse?> SendMail(Mail mail)
+    {
+        Email.DefaultSender = _sender;
 
         var sendResponse = await Email
             .From(mail.Email, mail.Name)
