@@ -1,3 +1,4 @@
+using SendMail.Repository;
 using SendMail.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +7,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IMailer, NetworkMailer>();
+builder.Services.AddScoped<IMailRepository, MailRepository>();
 
 var app = builder.Build();
 
