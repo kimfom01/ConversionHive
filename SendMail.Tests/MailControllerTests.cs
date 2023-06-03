@@ -1,21 +1,19 @@
-﻿using FluentEmail.Core.Models;
-using Microsoft.AspNetCore.Mvc;
-using Moq;
+﻿using Moq;
 using SendMail.Controllers;
-using SendMail.Models;
+using SendMail.Repository;
 using SendMail.Services;
 
 namespace SendMail.Tests;
 
 public class MailControllerTests
 {
-    private readonly Mock<IMailer> _mockMailer;
     private readonly MailController _mailController;
 
     public MailControllerTests()
     {
-        _mockMailer = new Mock<IMailer>();
-        _mailController = new MailController(_mockMailer.Object);
+        var mockMailer = new Mock<IMailer>();
+        var mockRepository = new Mock<IMailRepository>();
+        _mailController = new MailController(mockMailer.Object, mockRepository.Object);
     }
 
     [Fact]
