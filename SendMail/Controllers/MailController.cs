@@ -22,7 +22,7 @@ public class MailController : ControllerBase
     public async Task<IActionResult> SendMail(SendMailDto sendMail)
     {
         var mailToSend = MapToMailObject(sendMail);
-        
+
         var sendResponse = await _mailer.SendMail(mailToSend);
 
         if (sendResponse is null || !sendResponse.Successful)
@@ -33,13 +33,18 @@ public class MailController : ControllerBase
         var mail = await _mailRepository.AddMail(mailToSend);
 
         // return Ok("Email Successfully Sent!");
-        return CreatedAtAction(nameof(GetSavedMail), new {id = mail.Id}, mail);
+        return CreatedAtAction(nameof(GetSavedMail), new { id = mail.Id }, mail);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetSavedMail(int id)
     {
-        var mail  = await _mailRepository.GetMail(id);
+        var mail = await _mailRepository.GetMail(id);
+
+        if (mail is null)
+        {
+            return NotFound();
+        }
 
         return Ok(mail);
     }
@@ -53,7 +58,7 @@ public class MailController : ControllerBase
             RecipientEmail = sendMailDto.RecipientEmail,
             Body = sendMailDto.Body
         };
-        
+
         if (sendMailDto.Subject is not null)
         {
             mail.Subject = sendMailDto.Subject;
