@@ -8,7 +8,7 @@ namespace SendMail.Services;
 
 public class LocalMailer : IMailer
 {
-    public async Task<SendResponse> SendMail(Mail mail)
+    public async Task<SendResponse?> SendMail(Mail mail)
     {
         var sender = new SmtpSender(() => new SmtpClient("localhost")
         {

@@ -5,5 +5,5 @@ namespace SendMail.Services;
 
 public interface IMailer
 {
-    Task<SendResponse> SendMail(Mail mail);
+    Task<SendResponse?> SendMail(Mail mail);
 }

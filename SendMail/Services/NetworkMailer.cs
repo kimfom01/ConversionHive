@@ -59,7 +59,7 @@ public class NetworkMailer : IMailer
         return secureString;
     }
 
-    public async Task<SendResponse> SendMail(Mail mail)
+    public async Task<SendResponse?> SendMail(Mail mail)
     {
         var sender = new SmtpSender(() => _client);
 
