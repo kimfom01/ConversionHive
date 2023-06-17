@@ -19,7 +19,7 @@ public class LocalMailer : IMailer
         });
     }
     
-    public async Task<SendResponse?> SendMail(Mail mail)
+    public async Task<bool> SendMail(Mail mail)
     {
         Email.DefaultSender = _sender;
 
@@ -30,6 +30,6 @@ public class LocalMailer : IMailer
             .Body(mail.Body)
             .SendAsync();
 
-        return sendResponse;
+        return sendResponse.Successful;
     }
 }

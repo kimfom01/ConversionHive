@@ -25,9 +25,9 @@ public class MailController : ControllerBase
 
         var sendResponse = await _mailer.SendMail(mailToSend);
 
-        if (sendResponse is null || !sendResponse.Successful)
+        if (!sendResponse)
         {
-            return BadRequest(sendResponse?.ErrorMessages);
+            return BadRequest();
         }
 
         var mail = await _unitOfWork.Mails.AddItem(mailToSend);

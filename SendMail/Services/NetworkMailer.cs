@@ -59,7 +59,7 @@ public class NetworkMailer : IMailer
         return secureString;
     }
 
-    public async Task<SendResponse?> SendMail(Mail mail)
+    public async Task<bool> SendMail(Mail mail)
     {
         var sender = new SmtpSender(() => _client);
 
@@ -72,6 +72,6 @@ public class NetworkMailer : IMailer
             .Body(mail.Body)
             .SendAsync();
 
-        return sendResponse;
+        return sendResponse.Successful;
     }
 }
