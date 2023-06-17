@@ -10,12 +10,12 @@ namespace SendMail.Controllers;
 public class MailController : ControllerBase
 {
     private readonly IMailer _mailer;
-    private readonly IMailRepository _mailRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public MailController(IMailer mailer, IMailRepository mailRepository)
+    public MailController(IMailer mailer, IUnitOfWork unitOfWork)
     {
         _mailer = mailer;
-        _mailRepository = mailRepository;
+        _unitOfWork = unitOfWork;
     }
 
     [HttpPost]
@@ -30,7 +30,8 @@ public class MailController : ControllerBase
             return BadRequest(sendResponse?.ErrorMessages);
         }
 
-        var mail = await _mailRepository.AddMail(mailToSend);
+        var mail = await _unitOfWork.Mails.AddItem(mailToSend);
+        await _unitOfWork.SaveChangesAsync();
 
         // return Ok("Email Successfully Sent!");
         return CreatedAtAction(nameof(GetSavedMail), new { id = mail.Id }, mail);
@@ -39,7 +40,7 @@ public class MailController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetSavedMail(int id)
     {
-        var mail = await _mailRepository.GetMail(id);
+        var mail = await _unitOfWork.Mails.GetItem(id);
 
         if (mail is null)
         {
