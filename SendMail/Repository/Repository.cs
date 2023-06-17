@@ -6,7 +6,7 @@ namespace SendMail.Repository;
 
 public abstract class Repository<T> : IRepository<T> where T : class
 {
-    protected DbSet<T> DbSet;
+    protected readonly DbSet<T> DbSet;
 
     public Repository(SendMailDbContext context)
     {

@@ -2,7 +2,6 @@ using System.Net;
 using System.Net.Mail;
 using System.Security;
 using FluentEmail.Core;
-using FluentEmail.Core.Models;
 using FluentEmail.Smtp;
 using SendMail.Models;
 

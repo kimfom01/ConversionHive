@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using FluentEmail.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using SendMail.Controllers;

@@ -1,5 +1,4 @@
-﻿using FluentEmail.Core.Models;
-using SendMail.Models;
+﻿using SendMail.Models;
 
 namespace SendMail.Services;
 
