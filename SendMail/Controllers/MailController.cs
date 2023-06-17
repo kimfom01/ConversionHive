@@ -50,6 +50,8 @@ public class MailController : ControllerBase
             return NotFound();
         }
 
-        return Ok(mail);
+        var mailDto = _mapper.Map<SendMailDto>(mail);
+
+        return Ok(mailDto);
     }
 }

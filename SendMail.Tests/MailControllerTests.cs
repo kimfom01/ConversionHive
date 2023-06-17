@@ -39,29 +39,32 @@ public class MailControllerTests
     [Fact]
     public async void SendMail_WhenCalled_ReturnsBadRequestObjectResult()
     {
-        var mail = new SendMailDto
-        {
-            RecipientEmail = "recipient@recipient.com",
-            Subject = "This is my subject",
-            Body = "This is the message body"
-        };
+        _mailer.Setup(s => s.SendMail(It.IsAny<Mail>())).ReturnsAsync(false);
+        _mapper.Setup(m => m.Map<Mail>(It.IsAny<SendMailDto>())).Returns(new Mock<Mail>().Object);
+        _unitOfWork.Setup(u => u.Mails.AddItem(It.IsAny<Mail>())).ReturnsAsync(new Mock<Mail>().Object);
 
-        var badRequestResponse = await _mailController.SendMail(mail);
+        var badRequestResponse = await _mailController.SendMail(new Mock<SendMailDto>().Object);
 
-        Assert.IsType<BadRequestObjectResult>(badRequestResponse);
+        Assert.IsType<BadRequestResult>(badRequestResponse);
     }
 
     [Fact]
     public async void GetSavedMail_WhenCalled_ReturnsOkObjectResult()
     {
-        var okResult = await _mailController.GetSavedMail(1);
+        _unitOfWork.Setup(u => u.Mails.GetItem(It.IsAny<int>())).ReturnsAsync(new Mock<Mail>().Object);
+        _mapper.Setup(m => m.Map<SendMailDto>(It.IsAny<Mail>())).Returns(new Mock<SendMailDto>().Object);
 
-        Assert.IsType<OkObjectResult>(okResult as OkObjectResult);
+        var okResult = await _mailController.GetSavedMail(It.IsAny<int>());
+
+        Assert.IsType<OkObjectResult>(okResult);
     }
     
     [Fact]
     public async void GetSavedMail_WhenCalled_ReturnsNotFoundResult()
     {
+        _unitOfWork.Setup(u => u.Mails.GetItem(It.IsAny<int>())).ReturnsAsync(() => null);
+        _mapper.Setup(m => m.Map<SendMailDto>(It.IsAny<Mail>())).Returns(new Mock<SendMailDto>().Object);
+
         var notFound = await _mailController.GetSavedMail(3);
 
         Assert.IsType<NotFoundResult>(notFound);
