@@ -9,10 +9,12 @@ public class UnitOfWork : IUnitOfWork
     public UnitOfWork(SendMailDbContext context)
     {
         Mails = new MailRepository(context);
+        Contacts = new ContactRepository(context);
         _context = context;
     }
 
     public IMailRepository Mails { get; }
+    public IContactRepository Contacts { get; }
 
     public void Dispose()
     {
