@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using AutoMapper;
+using FluentEmail.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using SendMail.Controllers;
@@ -10,34 +11,33 @@ namespace SendMail.Tests;
 
 public class MailControllerTests
 {
+    private readonly Mock<IMailer> _mailer;
+    private readonly Mock<IUnitOfWork> _unitOfWork;
+    private readonly Mock<IMapper> _mapper;
     private readonly MailController _mailController;
 
     public MailControllerTests()
     {
-        var mockMailer = new Mock<IMailer>();
-        var mockRepository = new Mock<IMailRepository>();
-        _mailController = new MailController(mockMailer.Object, mockRepository.Object);
+        _mailer = new Mock<IMailer>();
+        _unitOfWork = new Mock<IUnitOfWork>();
+        _mapper = new Mock<IMapper>();
+        _mailController = new MailController(_mailer.Object, _unitOfWork.Object, _mapper.Object);
     }
 
     [Fact]
-    public async Task SendMail_WhenCalled_ReturnsCreatedAtActionResult()
+    public async void SendMail_WhenCalled_ReturnsCreatedAtActionResult()
     {
-        var mail = new SendMailDto
-        {
-            Name = "Sender",
-            Email = "sender@sendmail.com",
-            RecipientEmail = "recipient@recipient.com",
-            Subject = "This is my subject",
-            Body = "This is the message body"
-        };
+        _mailer.Setup(s => s.SendMail(It.IsAny<Mail>())).ReturnsAsync(true);
+        var mail = _mapper.Setup(m => m.Map<Mail>(It.IsAny<SendMailDto>())).Returns(new Mock<Mail>().Object);
+        _unitOfWork.Setup(u => u.Mails.AddItem(It.IsAny<Mail>())).ReturnsAsync(new Mock<Mail>().Object);
         
-        var createdResponse = await _mailController.SendMail(mail);
+        var createdResponse = await _mailController.SendMail(new Mock<SendMailDto>().Object);
 
         Assert.IsType<CreatedAtActionResult>(createdResponse);
     }
 
     [Fact]
-    public async Task SendMail_WhenCalled_ReturnsBadRequestObjectResult()
+    public async void SendMail_WhenCalled_ReturnsBadRequestObjectResult()
     {
         var mail = new SendMailDto
         {
@@ -52,7 +52,7 @@ public class MailControllerTests
     }
 
     [Fact]
-    public async Task GetSavedMail_WhenCalled_ReturnsOkObjectResult()
+    public async void GetSavedMail_WhenCalled_ReturnsOkObjectResult()
     {
         var okResult = await _mailController.GetSavedMail(1);
 
@@ -60,7 +60,7 @@ public class MailControllerTests
     }
     
     [Fact]
-    public async Task GetSavedMail_WhenCalled_ReturnsNotFoundResult()
+    public async void GetSavedMail_WhenCalled_ReturnsNotFoundResult()
     {
         var notFound = await _mailController.GetSavedMail(3);
 
