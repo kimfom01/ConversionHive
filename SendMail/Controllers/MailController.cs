@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SendMail.Models;
 using SendMail.Repository;
@@ -11,17 +12,19 @@ public class MailController : ControllerBase
 {
     private readonly IMailer _mailer;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IMapper _mapper;
 
-    public MailController(IMailer mailer, IUnitOfWork unitOfWork)
+    public MailController(IMailer mailer, IUnitOfWork unitOfWork, IMapper mapper)
     {
         _mailer = mailer;
         _unitOfWork = unitOfWork;
+        _mapper = mapper;
     }
 
     [HttpPost]
-    public async Task<IActionResult> SendMail(SendMailDto sendMail)
+    public async Task<IActionResult> SendMail(SendMailDto sendMailDto)
     {
-        var mailToSend = MapToMailObject(sendMail);
+        var mailToSend = _mapper.Map<Mail>(sendMailDto);
 
         var sendResponse = await _mailer.SendMail(mailToSend);
 
@@ -48,23 +51,5 @@ public class MailController : ControllerBase
         }
 
         return Ok(mail);
-    }
-
-    private Mail MapToMailObject(SendMailDto sendMailDto)
-    {
-        var mail = new Mail
-        {
-            Name = sendMailDto.Name,
-            Email = sendMailDto.Email,
-            RecipientEmail = sendMailDto.RecipientEmail,
-            Body = sendMailDto.Body
-        };
-
-        if (sendMailDto.Subject is not null)
-        {
-            mail.Subject = sendMailDto.Subject;
-        }
-
-        return mail;
     }
 }
