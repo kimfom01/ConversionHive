@@ -7,7 +7,7 @@ public class AutoMapperProfile : Profile
 {
     public AutoMapperProfile()
     {
-        CreateMap<SendMailDto, Mail>().ReverseMap();
+        CreateMap<MailDto, Mail>().ReverseMap();
         CreateMap<ContactDto, Contact>().ReverseMap();
     }
 }

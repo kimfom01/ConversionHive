@@ -22,7 +22,7 @@ public class MailController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> SendMail(SendMailDto sendMailDto)
+    public async Task<IActionResult> SendMail(MailDto sendMailDto)
     {
         var mailToSend = _mapper.Map<Mail>(sendMailDto);
 
@@ -50,7 +50,7 @@ public class MailController : ControllerBase
             return NotFound();
         }
 
-        var mailDto = _mapper.Map<SendMailDto>(mail);
+        var mailDto = _mapper.Map<MailDto>(mail);
 
         return Ok(mailDto);
     }
