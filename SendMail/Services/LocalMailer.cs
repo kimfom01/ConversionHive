@@ -1,4 +1,5 @@
 ﻿using FluentEmail.Core;
+using FluentEmail.Razor;
 using FluentEmail.Smtp;
 using SendMail.Models;
 using System.Net.Mail;
@@ -20,13 +21,31 @@ public class LocalMailer : IMailer
     
     public async Task<bool> SendMail(Mail mail)
     {
+        // Using Razor templating package (or set using AddRazorRenderer in services)
+        Email.DefaultRenderer = new RazorRenderer();
+
+        var template = """
+                            <h1 style="color:blue;">Templated Mail Trial</h1>
+                            Dear @Model.Name,
+
+                            <p style="white-space: pre-line;">@Model.Body</p>
+                       """;
+
+        //var email = Email
+        //    .From("bob@hotmail.com")
+        //    .To("somedude@gmail.com")
+        //    .Subject("woo nuget")
+        //    .UsingTemplate(template, new Contact { FirstName = "Luke", LastName = "Awesome" });
+
+
         Email.DefaultSender = _sender;
 
         var sendResponse = await Email
             .From(mail.Sender, mail.Name)
             .To(mail.Receiver)
             .Subject(mail.Subject)
-            .Body(mail.Body)
+            //.Body(mail.Body)
+            .UsingTemplate(template, mail)
             .SendAsync();
 
         return sendResponse.Successful;
