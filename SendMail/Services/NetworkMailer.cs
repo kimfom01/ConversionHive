@@ -65,8 +65,8 @@ public class NetworkMailer : IMailer
         Email.DefaultSender = sender;
 
         var sendResponse = await Email
-            .From(mail.Email, mail.Name)
-            .To(mail.RecipientEmail)
+            .From(mail.Sender, mail.Name)
+            .To(mail.Receiver)
             .Subject(mail.Subject)
             .Body(mail.Body)
             .SendAsync();

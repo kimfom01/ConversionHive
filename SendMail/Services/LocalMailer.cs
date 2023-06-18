@@ -23,8 +23,8 @@ public class LocalMailer : IMailer
         Email.DefaultSender = _sender;
 
         var sendResponse = await Email
-            .From(mail.Email, mail.Name)
-            .To(mail.RecipientEmail)
+            .From(mail.Sender, mail.Name)
+            .To(mail.Receiver)
             .Subject(mail.Subject)
             .Body(mail.Body)
             .SendAsync();
