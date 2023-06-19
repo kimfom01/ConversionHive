@@ -22,6 +22,8 @@ public class MailController : ControllerBase
     }
 
     [HttpPost]
+    [ProducesResponseType(201)]
+    [ProducesResponseType(400)]
     public async Task<IActionResult> SendMail(MailDto sendMailDto)
     {
         var mailToSend = _mapper.Map<Mail>(sendMailDto);
@@ -41,6 +43,8 @@ public class MailController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(404)]
     public async Task<IActionResult> GetSavedMail(int id)
     {
         var mail = await _unitOfWork.Mails.GetItem(id);
