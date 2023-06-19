@@ -64,7 +64,7 @@ public class MailControllerTests
         _unitOfWork.Setup(u => u.Mails.GetItem(It.IsAny<int>())).ReturnsAsync(() => null);
         _mapper.Setup(m => m.Map<MailDto>(It.IsAny<Mail>())).Returns(new Mock<MailDto>().Object);
 
-        var notFound = await _mailController.GetSavedMail(3);
+        var notFound = await _mailController.GetSavedMail(It.IsAny<int>());
 
         Assert.IsType<NotFoundResult>(notFound);
     }
