@@ -28,7 +28,7 @@ public class LocalMailer : IMailer
                             <h1 style="color:blue;">Templated Mail Trial</h1>
                             Dear @Model.Name,
 
-                            <p style="white-space: pre-line;">@Model.Body</p>
+                            <p>@Model.Body</p>
                        """;
 
         //var email = Email
