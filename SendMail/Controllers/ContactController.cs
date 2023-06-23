@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SendMail.Models;
 using SendMail.Repository;
+using SendMail.Services;
 
 namespace SendMail.Controllers;
 
@@ -11,11 +12,13 @@ public class ContactController : ControllerBase
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly IContactService _contactService;
 
-    public ContactController(IUnitOfWork unitOfWork, IMapper mapper)
+    public ContactController(IUnitOfWork unitOfWork, IMapper mapper, IContactService contactService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _contactService = contactService;
     }
     
     [HttpPost]
@@ -35,6 +38,25 @@ public class ContactController : ControllerBase
         return CreatedAtAction(nameof(GetContact), new { id = contact.Id }, contact);
     }
 
+    [HttpPost("csv")]
+    public async Task<IActionResult> PostMultipleContacts([FromForm] IFormFileCollection file)
+    {
+        var stream = file[0].OpenReadStream();
+        
+        var contactsDtos = _contactService.ProcessContacts(stream);
+
+        if (contactsDtos is null)
+        {
+            return BadRequest();
+        }
+
+        var contacts = _mapper.Map<IEnumerable<Contact>>(contactsDtos);
+
+        await _unitOfWork.Contacts.AddItems(contacts);
+
+        return Ok(contacts);
+    }
+
     [HttpGet("{id}")]
     [ProducesResponseType(200)]
     [ProducesResponseType(404)]
@@ -49,6 +71,6 @@ public class ContactController : ControllerBase
 
         var contactDto = _mapper.Map<ContactDto>(contact);
 
-        return Ok(contact);
+        return Ok(contactDto);
     }
 }
