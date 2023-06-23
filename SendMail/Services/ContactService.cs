@@ -32,4 +32,13 @@ public class ContactService : IContactService
 
         return contactDto;
     }
+
+    public async Task<Contact?> PostContact(ContactDto? contactDto)
+    {
+        var contactToSave = _mapper.Map<Contact>(contactDto);
+
+        var contact = await _unitOfWork.Contacts.AddItem(contactToSave);
+
+        return contact;
+    }
 }

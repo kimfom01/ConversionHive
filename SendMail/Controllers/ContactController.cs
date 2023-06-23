@@ -30,15 +30,15 @@ public class ContactController : ControllerBase
         {
             return BadRequest();
         }
-        
-        var contactToSave = _mapper.Map<Contact>(contactDto);
 
-        var contact = await _unitOfWork.Contacts.AddItem(contactToSave);
+        var contact = await _contactService.PostContact(contactDto);
 
-        return CreatedAtAction(nameof(GetContact), new { id = contact.Id }, contact);
+        return CreatedAtAction(nameof(GetContact), new { id = contact!.Id }, contact);
     }
 
     [HttpPost("csv")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
     public async Task<IActionResult> PostMultipleContacts([FromForm] IFormFileCollection file)
     {
         var stream = file[0].OpenReadStream();
