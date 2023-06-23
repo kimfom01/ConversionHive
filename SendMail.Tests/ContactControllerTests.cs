@@ -4,6 +4,7 @@ using Moq;
 using SendMail.Controllers;
 using SendMail.Models;
 using SendMail.Repository;
+using SendMail.Services;
 
 namespace SendMail.Tests;
 
@@ -11,13 +12,15 @@ public class ContactControllerTests
 {
     private readonly Mock<IUnitOfWork> _unitOfWork;
     private readonly Mock<IMapper> _mapper;
+    private readonly Mock<IContactService> _contactServices;
     private readonly ContactController _contactController;
 
     public ContactControllerTests()
     {
         _unitOfWork = new Mock<IUnitOfWork>();
         _mapper = new Mock<IMapper>();
-        _contactController = new ContactController(_unitOfWork.Object, _mapper.Object);
+        _contactServices = new Mock<IContactService>();
+        _contactController = new ContactController(_unitOfWork.Object, _mapper.Object, _contactServices.Object);
     }
 
     [Fact]
