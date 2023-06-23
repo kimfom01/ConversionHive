@@ -62,14 +62,12 @@ public class ContactController : ControllerBase
     [ProducesResponseType(404)]
     public async Task<IActionResult> GetContact(int id)
     {
-        var contact = await _unitOfWork.Contacts.GetItem(id);
+        var contactDto = await _contactService.GetContact(id);
 
-        if (contact is null)
+        if (contactDto is null)
         {
             return NotFound();
         }
-
-        var contactDto = _mapper.Map<ContactDto>(contact);
 
         return Ok(contactDto);
     }
