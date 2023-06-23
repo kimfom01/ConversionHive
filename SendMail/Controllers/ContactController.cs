@@ -1,7 +1,5 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SendMail.Models;
-using SendMail.Repository;
 using SendMail.Services;
 
 namespace SendMail.Controllers;
@@ -10,14 +8,10 @@ namespace SendMail.Controllers;
 [Route("api/[controller]")]
 public class ContactController : ControllerBase
 {
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
     private readonly IContactService _contactService;
 
-    public ContactController(IUnitOfWork unitOfWork, IMapper mapper, IContactService contactService)
+    public ContactController(IContactService contactService)
     {
-        _unitOfWork = unitOfWork;
-        _mapper = mapper;
         _contactService = contactService;
     }
     

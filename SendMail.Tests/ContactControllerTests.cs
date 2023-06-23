@@ -20,7 +20,7 @@ public class ContactControllerTests
         _unitOfWork = new Mock<IUnitOfWork>();
         _mapper = new Mock<IMapper>();
         _contactServices = new Mock<IContactService>();
-        _contactController = new ContactController(_unitOfWork.Object, _mapper.Object, _contactServices.Object);
+        _contactController = new ContactController(_contactServices.Object);
     }
 
     [Fact]
