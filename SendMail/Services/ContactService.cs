@@ -17,11 +17,20 @@ public class ContactService : IContactService
         _mapper = mapper;
     }
     
-    public IEnumerable<ContactDto>? ProcessContacts(Stream fileStream)
+    public async Task<IEnumerable<Contact>?> ProcessContacts(Stream fileStream)
     {
-        var records = _csvService.ProcessCsv<ContactDto>(fileStream);
+        var contactDtos = _csvService.ProcessCsv<ContactDto>(fileStream);
+        
+        if (contactDtos is null)
+        {
+            return null;
+        }
+        
+        var contacts = _mapper.Map<IEnumerable<Contact>>(contactDtos);
 
-        return records;
+        await _unitOfWork.Contacts.AddItems(contacts);
+
+        return contacts;
     }
     
     public async Task<ContactDto?> GetContact(int id)

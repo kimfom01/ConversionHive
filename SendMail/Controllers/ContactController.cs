@@ -43,17 +43,13 @@ public class ContactController : ControllerBase
     {
         var stream = file[0].OpenReadStream();
         
-        var contactsDtos = _contactService.ProcessContacts(stream);
+        var contacts = await _contactService.ProcessContacts(stream);
 
-        if (contactsDtos is null)
+        if (contacts is null)
         {
             return BadRequest();
         }
-
-        var contacts = _mapper.Map<IEnumerable<Contact>>(contactsDtos);
-
-        await _unitOfWork.Contacts.AddItems(contacts);
-
+        
         return Ok(contacts);
     }
 
