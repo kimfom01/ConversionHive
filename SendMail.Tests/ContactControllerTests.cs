@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using SendMail.Controllers;
@@ -54,10 +55,25 @@ public class ContactControllerTests
     [Fact]
     public async void GetContact_WhenCalled_ReturnsNotFoundResult()
     {
-        _unitOfWork.Setup(u => u.Contacts.GetItem(It.IsAny<int>())).ReturnsAsync(() => null);
+        _contactServices.Setup(c => c.GetContact(It.IsAny<int>()))
+            .ReturnsAsync(() => null);
 
         var result = await _contactController.GetContact(It.IsAny<int>());
 
         Assert.IsType<NotFoundResult>(result);
+    }
+
+    [Fact]
+    public async void PostMultipleContacts_WhenCalled_ReturnsOkResult()
+    {
+        new Mock<IFormFileCollection>().Setup(f => f[0].OpenReadStream())
+            .Returns(new Mock<Stream>().Object);
+        
+        _contactServices.Setup(c => c.ProcessContacts(It.IsAny<Stream>()))
+            .ReturnsAsync(new Mock<IEnumerable<Contact>>().Object);
+
+        var result = await _contactController.PostMultipleContacts(It.IsAny<IFormFileCollection>());
+
+        Assert.IsType<OkObjectResult>(result);
     }
 }
