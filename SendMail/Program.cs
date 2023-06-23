@@ -10,6 +10,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IMailer, LocalMailer>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IContactService, ContactService>();
+builder.Services.AddScoped<ICsvService, CsvService>();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddDbContext<SendMailDbContext>(options =>
 {
