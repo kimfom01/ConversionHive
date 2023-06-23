@@ -26,8 +26,7 @@ public class ContactControllerTests
     [Fact]
     public async void PostContact_WhenCalled_ReturnsCreatedAtAction()
     {
-        _mapper.Setup(m => m.Map<Contact>(It.IsAny<ContactDto>())).Returns(new Mock<Contact>().Object);
-        _unitOfWork.Setup(u => u.Contacts.AddItem(It.IsAny<Contact>())).ReturnsAsync(new Mock<Contact>().Object);
+        _contactServices.Setup(s => s.PostContact(It.IsAny<ContactDto>())).ReturnsAsync(new Mock<Contact>().Object);
 
         var result = await _contactController.PostContact(new Mock<ContactDto>().Object);
 
@@ -45,8 +44,7 @@ public class ContactControllerTests
     [Fact]
     public async void GetContact_WhenCalled_ReturnsOkResult()
     {
-        _unitOfWork.Setup(u => u.Contacts.GetItem(It.IsAny<int>())).ReturnsAsync(new Mock<Contact>().Object);
-        _mapper.Setup(m => m.Map<ContactDto>(It.IsAny<ContactDto>())).Returns(new Mock<ContactDto>().Object);
+        _contactServices.Setup(s => s.GetContact(It.IsAny<int>())).ReturnsAsync(new Mock<ContactDto>().Object);
 
         var result = await _contactController.GetContact(It.IsAny<int>());
 
