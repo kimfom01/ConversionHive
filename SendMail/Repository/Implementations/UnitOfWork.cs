@@ -1,6 +1,6 @@
 ﻿using SendMail.Data;
 
-namespace SendMail.Repository;
+namespace SendMail.Repository.Implementations;
 
 public class UnitOfWork : IUnitOfWork
 {
@@ -10,11 +10,13 @@ public class UnitOfWork : IUnitOfWork
     {
         Mails = new MailRepository(context);
         Contacts = new ContactRepository(context);
+        Users = new UserRepository(context);
         _context = context;
     }
 
     public IMailRepository Mails { get; }
     public IContactRepository Contacts { get; }
+    public IUserRepository Users { get; }
 
     public void Dispose()
     {
