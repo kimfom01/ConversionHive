@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SendMail.Models;
 using SendMail.Services;
@@ -6,6 +7,7 @@ namespace SendMail.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class ContactController : ControllerBase
 {
     private readonly IContactService _contactService;

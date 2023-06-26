@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SendMail.Models;
 using SendMail.Repository;
@@ -8,6 +9,7 @@ namespace SendMail.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class MailController : ControllerBase
 {
     private readonly IMailer _mailer;

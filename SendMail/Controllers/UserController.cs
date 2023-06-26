@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using SendMail.Models;
@@ -27,6 +28,7 @@ public class UserController : ControllerBase
     [HttpGet("{id}")]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
+    [Authorize]
     public async Task<IActionResult> GetUser(int id)
     {
         var user = await _unitOfWork.Users.GetItem(id);
