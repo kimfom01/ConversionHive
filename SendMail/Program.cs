@@ -2,6 +2,7 @@ using SendMail.Data;
 using SendMail.Repository;
 using SendMail.Services;
 using Microsoft.EntityFrameworkCore;
+using SendMail.Repository.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
