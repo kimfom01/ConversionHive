@@ -1,7 +1,7 @@
 using SendMail.Data;
 using SendMail.Models;
 
-namespace SendMail.Repository;
+namespace SendMail.Repository.Implementations;
 
 public class MailRepository : Repository<Mail>, IMailRepository
 {

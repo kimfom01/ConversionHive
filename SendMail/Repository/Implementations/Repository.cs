@@ -2,7 +2,7 @@
 using SendMail.Data;
 using System.Linq.Expressions;
 
-namespace SendMail.Repository;
+namespace SendMail.Repository.Implementations;
 
 public abstract class Repository<T> : IRepository<T> where T : class
 {
@@ -28,6 +28,13 @@ public abstract class Repository<T> : IRepository<T> where T : class
     public virtual async Task<T?> GetItem(int id)
     {
         var item = await DbSet.FindAsync(id);
+
+        return item;
+    }
+
+    public virtual async Task<T?> GetItem(Expression<Func<T, bool>> expression)
+    {
+        var item = await DbSet.FirstOrDefaultAsync(expression);
 
         return item;
     }
