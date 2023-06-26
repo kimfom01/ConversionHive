@@ -9,5 +9,7 @@ public class AutoMapperProfile : Profile
     {
         CreateMap<MailDto, Mail>().ReverseMap();
         CreateMap<ContactDto, Contact>().ReverseMap();
+        CreateMap<UserRegisterDto, User>().ReverseMap();
+        CreateMap<UserDto, User>().ReverseMap();
     }
 }
