@@ -29,6 +29,7 @@ public class ContactService : IContactService
         var contacts = _mapper.Map<IEnumerable<Contact>>(contactDtos);
 
         await _unitOfWork.Contacts.AddItems(contacts);
+        await _unitOfWork.SaveChangesAsync();
 
         return contacts;
     }
@@ -47,6 +48,7 @@ public class ContactService : IContactService
         var contactToSave = _mapper.Map<Contact>(contactDto);
 
         var contact = await _unitOfWork.Contacts.AddItem(contactToSave);
+        await _unitOfWork.SaveChangesAsync();
 
         return contact;
     }
