@@ -8,6 +8,7 @@ namespace SendMail.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
+[ProducesResponseType(401)]
 public class ContactController : ControllerBase
 {
     private readonly IContactService _contactService;
@@ -20,6 +21,7 @@ public class ContactController : ControllerBase
     [HttpPost]
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
+    [ProducesResponseType(401)]
     public async Task<IActionResult> PostContact(ContactDto? contactDto)
     {
         if (contactDto is null)
@@ -35,6 +37,7 @@ public class ContactController : ControllerBase
     [HttpPost("csv")]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
+    [ProducesResponseType(401)]
     public async Task<IActionResult> PostMultipleContacts([FromForm] IFormFileCollection file)
     {
         var stream = file[0].OpenReadStream();
@@ -52,6 +55,7 @@ public class ContactController : ControllerBase
     [HttpGet("{id}")]
     [ProducesResponseType(200)]
     [ProducesResponseType(404)]
+    [ProducesResponseType(401)]
     public async Task<IActionResult> GetContact(int id)
     {
         var contactDto = await _contactService.GetContact(id);

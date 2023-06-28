@@ -29,6 +29,7 @@ public class UserController : ControllerBase
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
     [Authorize]
+    [ProducesResponseType(401)]
     public async Task<IActionResult> GetUser(int id)
     {
         var user = await _unitOfWork.Users.GetItem(id);
@@ -93,12 +94,12 @@ public class UserController : ControllerBase
         return Ok(token);
     }
 
-    private string CreateToken(User user, RolesEnum roles)
+    private string CreateToken(User user, RolesEnum role)
     {
         List<Claim> claims = new()
         {
             new Claim(ClaimTypes.Name, user.EmailAddress),
-            new Claim(ClaimTypes.Role, roles.ToString())
+            new Claim(ClaimTypes.Role, role.ToString())
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:Key").Value!));
