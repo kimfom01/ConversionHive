@@ -6,10 +6,10 @@ using System.Net.Mail;
 
 namespace SendMail.Services;
 
-public class LocalMailer : IMailer
+public class LocalEmailSender : IMailer
 {
     private readonly SmtpSender _sender;
-    public LocalMailer()
+    public LocalEmailSender()
     {
         _sender = new SmtpSender(() => new SmtpClient("localhost")
         {

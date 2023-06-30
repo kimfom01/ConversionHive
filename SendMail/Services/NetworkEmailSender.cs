@@ -7,7 +7,7 @@ using SendMail.Models;
 
 namespace SendMail.Services;
 
-public class NetworkMailer : IMailer
+public class NetworkEmailSender : IMailer
 {
     private readonly string _username;
     private readonly SecureString _password;
@@ -15,7 +15,7 @@ public class NetworkMailer : IMailer
     private readonly int _port;
     private readonly SmtpClient _client;
 
-    public NetworkMailer(IConfiguration configuration)
+    public NetworkEmailSender(IConfiguration configuration)
     {
         _username = configuration.GetSection("EmailCredentials:username").Value
                     ?? Environment.GetEnvironmentVariable("USERNAME")!;
