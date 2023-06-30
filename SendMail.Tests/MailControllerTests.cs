@@ -11,6 +11,7 @@ namespace SendMail.Tests;
 public class MailControllerTests
 {
     private readonly Mock<IMailer> _mailer;
+    private readonly Mock<IMailService> _mailService;
     private readonly Mock<IUnitOfWork> _unitOfWork;
     private readonly Mock<IMapper> _mapper;
     private readonly MailController _mailController;
@@ -18,9 +19,10 @@ public class MailControllerTests
     public MailControllerTests()
     {
         _mailer = new Mock<IMailer>();
+        _mailService = new Mock<IMailService>();
         _unitOfWork = new Mock<IUnitOfWork>();
         _mapper = new Mock<IMapper>();
-        _mailController = new MailController(_mailer.Object, _unitOfWork.Object, _mapper.Object);
+        _mailController = new MailController(_mailService.Object);
     }
 
     [Fact]

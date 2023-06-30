@@ -1,11 +1,11 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using SendMail.Data;
 using SendMail.Repository;
-using SendMail.Services;
-using Microsoft.EntityFrameworkCore;
 using SendMail.Repository.Implementations;
-using Microsoft.OpenApi.Models;
+using SendMail.Services;
 using Swashbuckle.AspNetCore.Filters;
-using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,7 +33,7 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Jwt:Key").Value!))
     };
 });
-builder.Services.AddScoped<IMailer, LocalMailer>();
+builder.Services.AddScoped<IMailer, LocalEmailSender>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddScoped<ICsvService, CsvService>();
