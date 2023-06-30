@@ -7,4 +7,5 @@ public class User
     public string LastName { get; set; }
     public string EmailAddress { get; set; }
     public string PasswordHash { get; set; }
+    public string Role { get; set; }
 }
