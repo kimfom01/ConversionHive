@@ -7,7 +7,7 @@ namespace SendMail.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize]
+[Authorize(Roles = "Basic, Admin")]
 public class MailController : ControllerBase
 {
     private readonly IMailService _mailService;

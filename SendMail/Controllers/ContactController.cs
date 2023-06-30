@@ -7,7 +7,7 @@ namespace SendMail.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize]
+[Authorize(Roles = "Basic, Admin")]
 [ProducesResponseType(401)]
 public class ContactController : ControllerBase
 {

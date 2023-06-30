@@ -28,7 +28,7 @@ public class UserController : ControllerBase
     [HttpGet("{id}")]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
-    [Authorize]
+    [Authorize(Roles = "Basic, Admin")]
     [ProducesResponseType(401)]
     public async Task<IActionResult> GetUser(int id)
     {
@@ -59,6 +59,7 @@ public class UserController : ControllerBase
         var user = _mapper.Map<User>(userRegisterDto);
 
         user.PasswordHash = passwordHash;
+        user.Role = RolesEnum.Basic.ToString();
 
         var registeredUser = await _unitOfWork.Users.AddItem(user);
         await _unitOfWork.SaveChangesAsync();
@@ -89,17 +90,17 @@ public class UserController : ControllerBase
             return BadRequest("Username or password is wrong");
         }
 
-        var token = CreateToken(user, RolesEnum.User);
+        var token = CreateToken(user, user.Role);
 
         return Ok(token);
     }
 
-    private string CreateToken(User user, RolesEnum role)
+    private string CreateToken(User user, string role)
     {
         List<Claim> claims = new()
         {
             new Claim(ClaimTypes.Name, user.EmailAddress),
-            new Claim(ClaimTypes.Role, role.ToString())
+            new Claim(ClaimTypes.Role, role)
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:Key").Value!));
