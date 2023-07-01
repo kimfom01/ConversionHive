@@ -28,9 +28,7 @@ public class MailControllerTests
     [Fact]
     public async void SendMail_WhenCalled_ReturnsCreatedAtActionResult()
     {
-        _mailer.Setup(s => s.SendMail(It.IsAny<Mail>())).ReturnsAsync(true);
-        var mail = _mapper.Setup(m => m.Map<Mail>(It.IsAny<MailDto>())).Returns(new Mock<Mail>().Object);
-        _unitOfWork.Setup(u => u.Mails.AddItem(It.IsAny<Mail>())).ReturnsAsync(new Mock<Mail>().Object);
+        _mailService.Setup(s => s.SendMail(It.IsAny<MailDto>())).ReturnsAsync(new Mock<Mail>().Object);
 
         var createdResponse = await _mailController.SendMail(new Mock<MailDto>().Object);
 
@@ -40,9 +38,7 @@ public class MailControllerTests
     [Fact]
     public async void SendMail_WhenCalled_ReturnsBadRequestObjectResult()
     {
-        _mailer.Setup(s => s.SendMail(It.IsAny<Mail>())).ReturnsAsync(false);
-        _mapper.Setup(m => m.Map<Mail>(It.IsAny<MailDto>())).Returns(new Mock<Mail>().Object);
-        _unitOfWork.Setup(u => u.Mails.AddItem(It.IsAny<Mail>())).ReturnsAsync(new Mock<Mail>().Object);
+        _mailService.Setup(s => s.SendMail(It.IsAny<MailDto>())).ReturnsAsync(() => null);
 
         var badRequestResponse = await _mailController.SendMail(new Mock<MailDto>().Object);
 
@@ -52,8 +48,7 @@ public class MailControllerTests
     [Fact]
     public async void GetSavedMail_WhenCalled_ReturnsOkObjectResult()
     {
-        _unitOfWork.Setup(u => u.Mails.GetItem(It.IsAny<int>())).ReturnsAsync(new Mock<Mail>().Object);
-        _mapper.Setup(m => m.Map<MailDto>(It.IsAny<Mail>())).Returns(new Mock<MailDto>().Object);
+        _mailService.Setup(s => s.GetSavedMail(It.IsAny<int>())).ReturnsAsync(new Mock<MailDto>().Object);
 
         var okResult = await _mailController.GetSavedMail(It.IsAny<int>());
 
@@ -63,8 +58,7 @@ public class MailControllerTests
     [Fact]
     public async void GetSavedMail_WhenCalled_ReturnsNotFoundResult()
     {
-        _unitOfWork.Setup(u => u.Mails.GetItem(It.IsAny<int>())).ReturnsAsync(() => null);
-        _mapper.Setup(m => m.Map<MailDto>(It.IsAny<Mail>())).Returns(new Mock<MailDto>().Object);
+        _mailService.Setup(s => s.GetSavedMail(It.IsAny<int>())).ReturnsAsync(() => null);
 
         var notFound = await _mailController.GetSavedMail(It.IsAny<int>());
 
