@@ -1,27 +1,19 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
 using SendMail.Controllers;
 using SendMail.Models;
-using SendMail.Repository;
 using SendMail.Services;
 
 namespace SendMail.Tests;
 
 public class MailControllerTests
 {
-    private readonly Mock<IMailer> _mailer;
     private readonly Mock<IMailService> _mailService;
-    private readonly Mock<IUnitOfWork> _unitOfWork;
-    private readonly Mock<IMapper> _mapper;
     private readonly MailController _mailController;
 
     public MailControllerTests()
     {
-        _mailer = new Mock<IMailer>();
         _mailService = new Mock<IMailService>();
-        _unitOfWork = new Mock<IUnitOfWork>();
-        _mapper = new Mock<IMapper>();
         _mailController = new MailController(_mailService.Object);
     }
 
