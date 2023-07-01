@@ -77,4 +77,19 @@ public class ContactControllerTests
 
         Assert.IsType<OkObjectResult>(result);
     }
+
+    [Fact]
+    public async Task PostMultipleContacts_WhenCalled_ReturnsBadRequest()
+    {
+        var formFileCollection = new Mock<IFormFileCollection>();
+        
+        formFileCollection.Setup(f => f[0]).Returns(new Mock<IFormFile>().Object);
+        
+        _contactServices.Setup(c => c.ProcessContacts(It.IsAny<Stream>()))
+            .ReturnsAsync(() => null);
+
+        var result = await _contactController.PostMultipleContacts(formFileCollection.Object);
+
+        Assert.IsType<BadRequestResult>(result);
+    }
 }
