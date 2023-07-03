@@ -47,14 +47,14 @@ public class UserController : ControllerBase
     [HttpPost("register")]
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
-    public async Task<IActionResult> RegisterUser(UserRegisterDto userRegisterDto)
+    public async Task<IActionResult> RegisterUser(UserRegisterDto? userRegisterDto)
     {
         if (userRegisterDto is null)
         {
             return BadRequest();
         }
 
-        string passwordHash = BCrypt.Net.BCrypt.HashPassword(userRegisterDto.Password);
+        var passwordHash = BCrypt.Net.BCrypt.HashPassword(userRegisterDto.Password);
 
         var user = _mapper.Map<User>(userRegisterDto);
 
@@ -71,7 +71,7 @@ public class UserController : ControllerBase
     [ProducesResponseType(200)]
     [ProducesResponseType(404)]
     [ProducesResponseType(400)]
-    public async Task<IActionResult> LoginUser(UserLoginDto userLoginDto)
+    public async Task<IActionResult> LoginUser(UserLoginDto? userLoginDto)
     {
         if (userLoginDto is null)
         {
