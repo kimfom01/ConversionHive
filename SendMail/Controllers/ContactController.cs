@@ -52,7 +52,7 @@ public class ContactController : ControllerBase
         return Ok(contacts);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     [ProducesResponseType(200)]
     [ProducesResponseType(404)]
     [ProducesResponseType(401)]
