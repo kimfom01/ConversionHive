@@ -27,7 +27,7 @@ public class UserController : ControllerBase
 
     [HttpGet("{id}")]
     [ProducesResponseType(200)]
-    [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
     [Authorize(Roles = "Basic, Admin")]
     [ProducesResponseType(401)]
     public async Task<IActionResult> GetUser(int id)
@@ -36,7 +36,7 @@ public class UserController : ControllerBase
 
         if (user is null)
         {
-            return BadRequest();
+            return NotFound();
         }
 
         var userDto = _mapper.Map<UserDto>(user);
