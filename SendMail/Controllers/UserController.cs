@@ -51,7 +51,14 @@ public class UserController : ControllerBase
     {
         if (userRegisterDto is null)
         {
-            return BadRequest();
+            return BadRequest("Invalid details");
+        }
+
+        var userExists = await CheckUserExists(userRegisterDto.EmailAddress);
+
+        if (userExists)
+        {
+            return BadRequest("User alreay exists");
         }
 
         string passwordHash = BCrypt.Net.BCrypt.HashPassword(userRegisterDto.Password);
@@ -67,6 +74,18 @@ public class UserController : ControllerBase
         return CreatedAtAction(nameof(GetUser), new { id = registeredUser.Id }, registeredUser);
     }
 
+    private async Task<bool> CheckUserExists(string emailAddress)
+    {
+        var user = await _unitOfWork.Users.GetItem(user => user.EmailAddress == emailAddress);
+
+        if (user is null)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
     [HttpPost("login")]
     [ProducesResponseType(200)]
     [ProducesResponseType(404)]
@@ -75,14 +94,14 @@ public class UserController : ControllerBase
     {
         if (userLoginDto is null)
         {
-            return BadRequest();
+            return BadRequest("Invalid details");
         }
 
         var user = await _unitOfWork.Users.GetItem(user => user.EmailAddress == userLoginDto.EmailAddress);
 
         if (user is null)
         {
-            return NotFound();
+            return NotFound("User does not exist");
         }
 
         if (!BCrypt.Net.BCrypt.Verify(userLoginDto.Password, user.PasswordHash))
