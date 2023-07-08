@@ -105,9 +105,13 @@ public class UserController : ControllerBase
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:Key").Value!));
 
+        var issuer = _configuration.GetValue<string>("Jwt:Issuer");
+
+        var audience = _configuration.GetValue<string>("Jwt:Audience");
+
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
 
-        var token = new JwtSecurityToken(claims: claims, expires: DateTime.Now.AddDays(14), signingCredentials: credentials);
+        var token = new JwtSecurityToken(claims: claims, expires: DateTime.Now.AddDays(14), signingCredentials: credentials, issuer: issuer, audience: audience);
 
         var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 

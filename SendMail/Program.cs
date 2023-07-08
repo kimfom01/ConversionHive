@@ -23,16 +23,19 @@ builder.Services.AddSwaggerGen(options =>
 
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
-builder.Services.AddAuthentication().AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
+builder.Services.AddAuthentication()
+    .AddJwtBearer(options =>
     {
-        ValidateIssuerSigningKey = true,
-        ValidateAudience = false,
-        ValidateIssuer = false,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Jwt:Key").Value!))
-    };
-});
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidIssuer = builder.Configuration.GetValue<string>("Jwt:Issuer"),
+            ValidAudience = builder.Configuration.GetValue<string>("Jwt:Audience"),
+            ValidateIssuerSigningKey = true,
+            ValidateAudience = true,
+            ValidateIssuer = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetValue<string>("Jwt:Key")!))
+        };
+    });
 builder.Services.AddScoped<IMailer, LocalEmailSender>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IContactService, ContactService>();
