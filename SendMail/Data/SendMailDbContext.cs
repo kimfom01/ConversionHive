@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using SendMail.Models;
 using SendMail.Models.Contact;
+using SendMail.Models.Mail;
 using SendMail.Models.User;
 
 namespace SendMail.Data;

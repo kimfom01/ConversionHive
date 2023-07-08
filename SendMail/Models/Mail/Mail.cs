@@ -1,7 +1,8 @@
-namespace SendMail.Models;
+namespace SendMail.Models.Mail;
 
-public class MailDto
+public class Mail
 {
+    public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Sender { get; set; } = string.Empty;
     public string Receiver { get; set; } = string.Empty;

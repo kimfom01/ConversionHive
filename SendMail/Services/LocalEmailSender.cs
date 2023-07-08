@@ -1,7 +1,7 @@
 ﻿using FluentEmail.Core;
 using FluentEmail.Razor;
 using FluentEmail.Smtp;
-using SendMail.Models;
+using SendMail.Models.Mail;
 using System.Net.Mail;
 
 namespace SendMail.Services;

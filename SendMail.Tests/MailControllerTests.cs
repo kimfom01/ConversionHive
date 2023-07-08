@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using SendMail.Controllers;
-using SendMail.Models;
+using SendMail.Models.Mail;
 using SendMail.Repository;
 using SendMail.Services;
 

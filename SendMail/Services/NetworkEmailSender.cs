@@ -3,7 +3,7 @@ using System.Net.Mail;
 using System.Security;
 using FluentEmail.Core;
 using FluentEmail.Smtp;
-using SendMail.Models;
+using SendMail.Models.Mail;
 
 namespace SendMail.Services;
 
