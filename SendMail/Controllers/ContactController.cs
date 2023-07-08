@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SendMail.Models;
+using SendMail.Models.Contact;
 using SendMail.Services;
 
 namespace SendMail.Controllers;
