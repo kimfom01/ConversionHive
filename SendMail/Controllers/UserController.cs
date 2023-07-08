@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using SendMail.Models;
+using SendMail.Models.User;
 using SendMail.Repository;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
