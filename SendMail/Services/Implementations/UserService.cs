@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using SendMail.Models.User;
+using SendMail.Models.UserModels;
 using SendMail.Repository;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;

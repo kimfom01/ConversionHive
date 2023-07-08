@@ -1,5 +1,5 @@
 ﻿using SendMail.Data;
-using SendMail.Models.User;
+using SendMail.Models.UserModels;
 
 namespace SendMail.Repository.Implementations;
 

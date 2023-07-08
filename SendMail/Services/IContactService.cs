@@ -1,4 +1,4 @@
-using SendMail.Models.Contact;
+using SendMail.Models.ContactModels;
 
 namespace SendMail.Services;
 

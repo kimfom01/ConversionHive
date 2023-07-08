@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SendMail.Models.User;
+using SendMail.Models.UserModels;
 using SendMail.Services;
 
 namespace SendMail.Controllers;
@@ -18,7 +18,7 @@ public class UserController : ControllerBase
 
     [HttpGet("{id}")]
     [ProducesResponseType(200)]
-    [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
     [Authorize(Roles = "Basic, Admin")]
     [ProducesResponseType(401)]
     public async Task<IActionResult> GetUser(int id)
@@ -27,7 +27,7 @@ public class UserController : ControllerBase
 
         if (userDto is null)
         {
-            return BadRequest();
+            return NotFound();
         }
 
         return Ok(userDto);
@@ -36,7 +36,7 @@ public class UserController : ControllerBase
     [HttpPost("register")]
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
-    public async Task<IActionResult> RegisterUser(UserRegisterDto userRegisterDto)
+    public async Task<IActionResult> RegisterUser(UserRegisterDto? userRegisterDto)
     {
         if (userRegisterDto is null)
         {
@@ -59,7 +59,7 @@ public class UserController : ControllerBase
     [ProducesResponseType(200)]
     [ProducesResponseType(404)]
     [ProducesResponseType(400)]
-    public async Task<IActionResult> LoginUser(UserLoginDto userLoginDto)
+    public async Task<IActionResult> LoginUser(UserLoginDto? userLoginDto)
     {
         if (userLoginDto is null)
         {

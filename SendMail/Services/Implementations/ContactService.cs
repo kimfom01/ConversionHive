@@ -1,5 +1,5 @@
 using AutoMapper;
-using SendMail.Models.Contact;
+using SendMail.Models.ContactModels;
 using SendMail.Repository;
 
 namespace SendMail.Services.Implementations;

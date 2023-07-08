@@ -42,6 +42,11 @@ public class MailController : ControllerBase
     {
         var mailDto = await _mailService.GetSavedMail(id);
 
+        if (mailDto is null)
+        {
+            return NotFound();
+        }
+        
         return Ok(mailDto);
     }
 }

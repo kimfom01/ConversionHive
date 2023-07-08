@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using SendMail.Models.Contact;
+using SendMail.Models.ContactModels;
 using SendMail.Models.Mail;
-using SendMail.Models.User;
+using SendMail.Models.UserModels;
 
 namespace SendMail.Mappings;
 

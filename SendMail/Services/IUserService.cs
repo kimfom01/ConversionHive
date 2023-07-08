@@ -1,4 +1,4 @@
-﻿using SendMail.Models.User;
+﻿using SendMail.Models.UserModels;
 
 namespace SendMail.Services;
 

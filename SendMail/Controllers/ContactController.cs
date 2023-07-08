@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SendMail.Models.Contact;
+using SendMail.Models.ContactModels;
 using SendMail.Services;
 
 namespace SendMail.Controllers;
@@ -52,7 +52,7 @@ public class ContactController : ControllerBase
         return Ok(contacts);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     [ProducesResponseType(200)]
     [ProducesResponseType(404)]
     [ProducesResponseType(401)]
