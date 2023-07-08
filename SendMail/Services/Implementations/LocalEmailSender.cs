@@ -4,7 +4,7 @@ using FluentEmail.Smtp;
 using SendMail.Models.Mail;
 using System.Net.Mail;
 
-namespace SendMail.Services;
+namespace SendMail.Services.Implementations;
 
 public class LocalEmailSender : IMailer
 {
@@ -18,7 +18,7 @@ public class LocalEmailSender : IMailer
             Port = 25
         });
     }
-    
+
     public async Task<bool> SendMail(Mail mail)
     {
         // Using Razor templating package (or set using AddRazorRenderer in services)

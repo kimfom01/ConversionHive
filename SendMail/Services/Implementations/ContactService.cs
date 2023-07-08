@@ -2,7 +2,7 @@ using AutoMapper;
 using SendMail.Models.Contact;
 using SendMail.Repository;
 
-namespace SendMail.Services;
+namespace SendMail.Services.Implementations;
 
 public class ContactService : IContactService
 {
@@ -16,16 +16,16 @@ public class ContactService : IContactService
         _unitOfWork = unitOfWork;
         _mapper = mapper;
     }
-    
+
     public async Task<IEnumerable<Contact>?> ProcessContacts(Stream fileStream)
     {
         var contactDtos = _csvService.ProcessCsv<ContactDto>(fileStream);
-        
+
         if (contactDtos is null)
         {
             return null;
         }
-        
+
         var contacts = _mapper.Map<IEnumerable<Contact>>(contactDtos);
 
         await _unitOfWork.Contacts.AddItems(contacts);
@@ -33,7 +33,7 @@ public class ContactService : IContactService
 
         return contacts;
     }
-    
+
     public async Task<ContactDto?> GetContact(int id)
     {
         var contact = await _unitOfWork.Contacts.GetItem(id);

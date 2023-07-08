@@ -5,7 +5,7 @@ using FluentEmail.Core;
 using FluentEmail.Smtp;
 using SendMail.Models.Mail;
 
-namespace SendMail.Services;
+namespace SendMail.Services.Implementations;
 
 public class NetworkEmailSender : IMailer
 {

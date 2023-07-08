@@ -1,7 +1,7 @@
 using System.Globalization;
 using CsvHelper;
 
-namespace SendMail.Services;
+namespace SendMail.Services.Implementations;
 
 public class CsvService : ICsvService
 {
@@ -11,7 +11,7 @@ public class CsvService : ICsvService
 
         var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
 
-        var records =  csv.GetRecords<T>();
+        var records = csv.GetRecords<T>();
 
         return records;
     }

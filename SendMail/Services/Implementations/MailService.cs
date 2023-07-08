@@ -2,7 +2,7 @@
 using SendMail.Models.Mail;
 using SendMail.Repository;
 
-namespace SendMail.Services;
+namespace SendMail.Services.Implementations;
 
 public class MailService : IMailService
 {

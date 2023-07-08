@@ -5,6 +5,7 @@ using SendMail.Data;
 using SendMail.Repository;
 using SendMail.Repository.Implementations;
 using SendMail.Services;
+using SendMail.Services.Implementations;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
