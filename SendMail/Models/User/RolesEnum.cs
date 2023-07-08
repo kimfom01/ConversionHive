@@ -1,4 +1,4 @@
-﻿namespace SendMail.Models;
+﻿namespace SendMail.Models.User;
 
 public enum RolesEnum
 {
