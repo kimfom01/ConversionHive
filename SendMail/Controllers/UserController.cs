@@ -50,7 +50,7 @@ public class UserController : ControllerBase
             return BadRequest("User alreay exists");
         }
 
-        var registeredUser = _userService.RegisterUser(userRegisterDto);
+        var registeredUser = await _userService.RegisterUser(userRegisterDto);
 
         return CreatedAtAction(nameof(GetUser), new { id = registeredUser.Id }, registeredUser);
     }
