@@ -47,7 +47,7 @@ public class UserService : IUserService
         var registeredUser = await _unitOfWork.Users.AddItem(user);
         await _unitOfWork.SaveChangesAsync();
 
-        return user;
+        return registeredUser;
     }
 
     public async Task<bool> CheckUserExists(string emailAddress)
