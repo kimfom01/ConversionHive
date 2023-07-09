@@ -8,6 +8,6 @@ public class ContactDto
     public string LastName { get; set; } = string.Empty;
     public string PhoneNumber { get; set; } = string.Empty;
     public string EmailAddress { get; set; } = string.Empty;
-    public int UserId { get; set; }
-    public User? User { get; set; }
+    //public int UserId { get; set; }
+    //public User? User { get; set; }
 }
