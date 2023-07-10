@@ -38,9 +38,9 @@ public class ContactController : ControllerBase
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
     [ProducesResponseType(401)]
-    public async Task<IActionResult> PostMultipleContacts([FromForm] IFormFileCollection file)
+    public async Task<IActionResult> PostMultipleContacts([FromForm] IFormFile file)
     {
-        var stream = file[0].OpenReadStream();
+        var stream = file.OpenReadStream();
         
         var contacts = await _contactService.ProcessContacts(stream);
 
