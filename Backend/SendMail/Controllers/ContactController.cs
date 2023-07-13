@@ -22,7 +22,7 @@ public class ContactController : ControllerBase
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
     [ProducesResponseType(401)]
-    public async Task<IActionResult> PostContact(ContactDto? contactDto)
+    public async Task<IActionResult> PostContact(CreateContactDto? contactDto)
     {
         if (contactDto is null)
         {

@@ -17,9 +17,9 @@ public class ContactService : IContactService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<Contact>?> ProcessContacts(Stream fileStream)
+    public async Task<IEnumerable<CreateContactResponseDto>?> ProcessContacts(Stream fileStream)
     {
-        var contactDtos = _csvService.ProcessCsv<ContactDto>(fileStream);
+        var contactDtos = _csvService.ProcessCsv<CreateContactDto>(fileStream);
 
         if (contactDtos is null)
         {
@@ -31,25 +31,29 @@ public class ContactService : IContactService
         await _unitOfWork.Contacts.AddItems(contacts);
         await _unitOfWork.SaveChangesAsync();
 
-        return contacts;
+        var createContactResponseDtos = _mapper.Map<IEnumerable<CreateContactResponseDto>>(contacts);
+
+        return createContactResponseDtos;
     }
 
-    public async Task<ContactDto?> GetContact(int id)
+    public async Task<CreateContactDto?> GetContact(int id)
     {
         var contact = await _unitOfWork.Contacts.GetItem(id);
 
-        var contactDto = _mapper.Map<ContactDto>(contact);
+        var contactDto = _mapper.Map<CreateContactDto>(contact);
 
         return contactDto;
     }
 
-    public async Task<Contact?> PostContact(ContactDto? contactDto)
+    public async Task<CreateContactResponseDto?> PostContact(CreateContactDto? contactDto)
     {
         var contactToSave = _mapper.Map<Contact>(contactDto);
 
         var contact = await _unitOfWork.Contacts.AddItem(contactToSave);
         await _unitOfWork.SaveChangesAsync();
 
-        return contact;
+        var contactResponse = _mapper.Map<CreateContactResponseDto>(contact);
+
+        return contactResponse;
     }
 }

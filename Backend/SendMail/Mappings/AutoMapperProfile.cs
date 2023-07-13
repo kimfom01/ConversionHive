@@ -10,8 +10,9 @@ public class AutoMapperProfile : Profile
     public AutoMapperProfile()
     {
         CreateMap<MailDto, Mail>().ReverseMap();
-        CreateMap<ContactDto, Contact>().ReverseMap();
+        CreateMap<CreateContactDto, Contact>().ReverseMap();
         CreateMap<UserRegisterDto, User>().ReverseMap();
         CreateMap<UserDto, User>().ReverseMap();
+        CreateMap<CreateContactResponseDto, Contact>().ReverseMap();
     }
 }
