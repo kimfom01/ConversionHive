@@ -17,7 +17,7 @@ public class ContactController : ControllerBase
     {
         _contactService = contactService;
     }
-    
+
     [HttpPost]
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
@@ -38,17 +38,17 @@ public class ContactController : ControllerBase
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
     [ProducesResponseType(401)]
-    public async Task<IActionResult> PostMultipleContacts([FromForm] IFormFile file)
+    public async Task<IActionResult> PostMultipleContacts([FromHeader] string authorization, [FromForm] IFormFile file)
     {
         var stream = file.OpenReadStream();
-        
-        var contacts = await _contactService.ProcessContacts(stream);
+
+        var contacts = await _contactService.ProcessContacts(authorization, stream);
 
         if (contacts is null)
         {
             return BadRequest();
         }
-        
+
         return Ok(contacts);
     }
 
