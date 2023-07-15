@@ -58,6 +58,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IMailService, MailService>();
 builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddScoped<ICsvService, CsvService>();
+builder.Services.AddScoped<IJwtProcessor, JwtProcessor>();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddDbContext<SendMailDbContext>(options =>
 {
