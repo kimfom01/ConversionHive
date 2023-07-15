@@ -9,16 +9,20 @@ public class ContactService : IContactService
     private readonly ICsvService _csvService;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly IJwtProcessor _jwtProcessor;
 
-    public ContactService(ICsvService csvService, IUnitOfWork unitOfWork, IMapper mapper)
+    public ContactService(ICsvService csvService, IUnitOfWork unitOfWork, IMapper mapper, IJwtProcessor jwtProcessor)
     {
         _csvService = csvService;
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _jwtProcessor = jwtProcessor;
     }
 
-    public async Task<IEnumerable<CreateContactResponseDto>?> ProcessContacts(Stream fileStream)
+    public async Task<IEnumerable<CreateContactResponseDto>?> ProcessContacts(string authorization, Stream fileStream)
     {
+        var id = _jwtProcessor.ExtractIdFromJwt(authorization);
+
         var contactDtos = _csvService.ProcessCsv<CreateContactDto>(fileStream);
 
         if (contactDtos is null)
@@ -27,6 +31,11 @@ public class ContactService : IContactService
         }
 
         var contacts = _mapper.Map<IEnumerable<Contact>>(contactDtos);
+
+        foreach (var contact in contacts)
+        {
+            contact.UserId = id;
+        }
 
         await _unitOfWork.Contacts.AddItems(contacts);
         await _unitOfWork.SaveChangesAsync();
