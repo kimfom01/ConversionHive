@@ -1,4 +1,4 @@
-﻿using SendMail.Models.UserModels;
+﻿using SendMail.Models.Mail;
 
 namespace SendMail.Models.ContactModels;
 
@@ -10,5 +10,6 @@ public class ReceiverContactDto
     public string PhoneNumber { get; set; } = string.Empty;
     public string EmailAddress { get; set; } = string.Empty;
     public int UserId { get; set; }
-    public User? User { get; set; }
+
+    public List<MailDto>? Mails { get; set; }
 }
