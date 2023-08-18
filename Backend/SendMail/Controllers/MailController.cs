@@ -49,4 +49,20 @@ public class MailController : ControllerBase
         
         return Ok(mailDto);
     }
+
+    [HttpGet]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(404)]
+    [ProducesResponseType(401)]
+    public async Task<IActionResult> GetMails()
+    {
+        var mails = await _mailService.GetSavedMails();
+
+        if (mails is null)
+        {
+            return NotFound();
+        }
+
+        return Ok(mails);
+    }
 }
