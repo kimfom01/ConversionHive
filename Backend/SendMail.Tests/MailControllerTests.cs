@@ -2,7 +2,6 @@
 using Moq;
 using SendMail.Controllers;
 using SendMail.Models.Mail;
-using SendMail.Repository;
 using SendMail.Services;
 
 namespace SendMail.Tests;

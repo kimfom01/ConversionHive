@@ -2,8 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using SendMail.Controllers;
-using SendMail.Models.Contact;
-using SendMail.Repository;
+using SendMail.Models.ContactModels;
 using SendMail.Services;
 
 namespace SendMail.Tests;
@@ -22,9 +21,11 @@ public class ContactControllerTests
     [Fact]
     public async Task PostContact_WhenCalled_ReturnsCreatedAtAction()
     {
-        _contactServices.Setup(s => s.PostContact(It.IsAny<ContactDto>())).ReturnsAsync(new Mock<Contact>().Object);
+        _contactServices
+            .Setup(s => s.PostContact(It.IsAny<CreateContactDto>()))
+            .ReturnsAsync(new Mock<CreateContactResponseDto>().Object);
 
-        var result = await _contactController.PostContact(new Mock<ContactDto>().Object);
+        var result = await _contactController.PostContact(new Mock<CreateContactDto>().Object);
 
         Assert.IsType<CreatedAtActionResult>(result);
     }
@@ -40,7 +41,7 @@ public class ContactControllerTests
     [Fact]
     public async Task GetContact_WhenCalled_ReturnsOkResult()
     {
-        _contactServices.Setup(s => s.GetContact(It.IsAny<int>())).ReturnsAsync(new Mock<ContactDto>().Object);
+        _contactServices.Setup(s => s.GetContact(It.IsAny<int>())).ReturnsAsync(new Mock<CreateContactDto>().Object);
 
         var result = await _contactController.GetContact(It.IsAny<int>());
 
@@ -61,14 +62,14 @@ public class ContactControllerTests
     [Fact]
     public async Task PostMultipleContacts_WhenCalled_ReturnsOkResult()
     {
-        var formFileCollection = new Mock<IFormFileCollection>();
-        
-        formFileCollection.Setup(f => f[0]).Returns(new Mock<IFormFile>().Object);
-        
-        _contactServices.Setup(c => c.ProcessContacts(It.IsAny<Stream>()))
-            .ReturnsAsync(new Mock<IEnumerable<Contact>>().Object);
+        var formFile = new Mock<IFormFile>();
+        var authorization = "my authorization string";
 
-        var result = await _contactController.PostMultipleContacts(formFileCollection.Object);
+        _contactServices.Setup(c => c.ProcessContacts(It.IsAny<string>(), It.IsAny<Stream>()))
+            .ReturnsAsync(new Mock<IEnumerable<CreateContactResponseDto>>().Object);
+
+        var result = await _contactController
+            .PostMultipleContacts(authorization, formFile.Object);
 
         Assert.IsType<OkObjectResult>(result);
     }
@@ -76,14 +77,14 @@ public class ContactControllerTests
     [Fact]
     public async Task PostMultipleContacts_WhenCalled_ReturnsBadRequest()
     {
-        var formFileCollection = new Mock<IFormFileCollection>();
-        
-        formFileCollection.Setup(f => f[0]).Returns(new Mock<IFormFile>().Object);
-        
-        _contactServices.Setup(c => c.ProcessContacts(It.IsAny<Stream>()))
+        var formFile = new Mock<IFormFile>();
+        var authorization = "my authorization string";
+
+        _contactServices.Setup(c => c.ProcessContacts(It.IsAny<string>(), It.IsAny<Stream>()))
             .ReturnsAsync(() => null);
 
-        var result = await _contactController.PostMultipleContacts(formFileCollection.Object);
+        var result = await _contactController
+            .PostMultipleContacts(authorization, formFile.Object);
 
         Assert.IsType<BadRequestResult>(result);
     }
