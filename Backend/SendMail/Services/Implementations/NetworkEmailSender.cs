@@ -1,9 +1,10 @@
+using FluentEmail.Core;
+using FluentEmail.Core.Models;
+using FluentEmail.Smtp;
+using SendMail.Models.Mail;
 using System.Net;
 using System.Net.Mail;
 using System.Security;
-using FluentEmail.Core;
-using FluentEmail.Smtp;
-using SendMail.Models.Mail;
 
 namespace SendMail.Services.Implementations;
 
@@ -64,12 +65,17 @@ public class NetworkEmailSender : IMailer
 
         Email.DefaultSender = sender;
 
-        var sendResponse = await Email
+        var sendResponse = new SendResponse();
+
+        foreach (var receiver in mail.Receivers)
+        {
+            sendResponse = await Email
             .From(mail.Sender, mail.Name)
-            .To(mail.Receiver)
+            .To(receiver.EmailAddress)
             .Subject(mail.Subject)
             .Body(mail.Body)
             .SendAsync();
+        }
 
         return sendResponse.Successful;
     }
