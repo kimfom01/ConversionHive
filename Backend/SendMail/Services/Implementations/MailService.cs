@@ -42,4 +42,13 @@ public class MailService : IMailService
 
         return mail;
     }
+
+    public async Task<IEnumerable<MailDto>?> GetSavedMails()
+    {
+        var mails = await _unitOfWork.Mails.GetItems(m => true);
+
+        var mailsDto = _mapper.Map<IEnumerable<MailDto>>(mails);
+
+        return mailsDto;
+    }
 }
