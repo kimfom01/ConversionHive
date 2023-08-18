@@ -62,7 +62,7 @@ builder.Services.AddScoped<IJwtProcessor, JwtProcessor>();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddDbContext<SendMailDbContext>(options =>
 {
-    options.UseInMemoryDatabase("tempDb");
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
 });
 
 var app = builder.Build();
