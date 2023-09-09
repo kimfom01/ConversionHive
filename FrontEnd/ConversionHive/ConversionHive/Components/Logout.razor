@@ -1,0 +1,16 @@
+﻿@page "/logout"
+@using Blazored.LocalStorage;
+@using ConversionHive.Models;
+@using Microsoft.AspNetCore.Components.Authorization;
+@inject NavigationManager _navigationManager;
+@inject ILocalStorageService _localStorageService;
+@inject AuthenticationStateProvider _authStateProvider
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await _authStateProvider.GetAuthenticationStateAsync();
+        await _localStorageService.ClearAsync();
+        _navigationManager.NavigateTo("/");
+    }
+}
