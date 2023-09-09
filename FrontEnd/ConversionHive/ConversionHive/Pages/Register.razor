@@ -1,90 +1,63 @@
 ﻿@page "/register"
+@using ConversionHive.Components
 @using ConversionHive.Models
 @using System.Net.Http.Headers;
 @using System.Text.Json;
 @using System.Text;
-@inject HttpClient _client
-@inject NavigationManager _navManager
+@inject HttpClient _client;
+@inject NavigationManager _navigationManager;
 
-<h3 class="text-center fw-bold mb-3">Sign up</h3>
 
-<div class="row justify-content-center">
-    <EditForm Model="@registerModel" OnValidSubmit="@SendRegisterRequest">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-        <div>
-            <label>
-                First Name:
-                <InputText @bind-Value="registerModel.FirstName"/>
-            </label>
+<Card Width="col-5">
+    <div>
+        <div class="form-group">
+            <h3 class="text-center fw-bold mb-3">Sign up</h3>
+            <EditForm Model="@registerModel" OnValidSubmit="SendRegisterRequest">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <div class="form-floating">
+                    <InputText id="floatingInput" class="form-control mb-3"
+                    @bind-Value="registerModel.FirstName" placeholder="First name here" />
+                    <label for="floatingInput">First Name</label>
+                </div>
+                <div class="form-floating">
+                    <InputText id="floatingInput" class="form-control mb-3"
+                    @bind-Value="registerModel.LastName" placeholder="Last name here" />
+                    <label for="floatingInput">Last Name</label>
+                </div>
+                <div class="form-floating">
+                    <InputText id="floatingInput" class="form-control mb-3"
+                    @bind-Value="registerModel.EmailAddress" placeholder="Email here" />
+                    <label for="floatingInput">Email</label>
+                </div>
+                <div class="form-floating">
+                    <InputText id="floatingInput" type="password" class="form-control mb-3"
+                    @bind-Value="registerModel.Password" placeholder="Password here" />
+                    <label for="floatingInput">Password</label>
+                </div>
+                <div>
+                    <button class="btn btn-primary" type="submit">Register</button>
+                </div>
+                <p>Already registered? <a href="/login">Log in</a></p>
+            </EditForm>
         </div>
-        <div>
-            <label>
-                Last Name:
-                <InputText @bind-Value="registerModel.LastName" />
-            </label>
-        </div>
-        <div>
-            <label>
-                Email Address:
-                <InputText @bind-Value="registerModel.EmailAddress" />
-            </label>
-        </div>
-        <div>
-            <label>
-                Password:
-                <InputText @bind-Value="registerModel.Password" />
-            </label>
-        </div>
-        <div>
-            <button type="submit">Register</button>
-        </div>
-        <p>Already registered? <a href="/login">Log in</a></p>
-    </EditForm>
-@*     <form method="post" class="col-md-4" action="">
-        <div class="form-floating mb-3">
-            <input id="@registerModel.FirstName" class="form-control" name="@registerModel.FirstName" type="text" placeholder="Your first name..." />
-            <label for="@registerModel.FirstName">First Name</label>
-        </div>
-        <div class="form-floating mb-3">
-            <input id="@registerModel.LastName" class="form-control" name="@registerModel.LastName" type="text" placeholder="Your last name..." />
-            <label for="@registerModel.LastName">Last Name</label>
-        </div>
-        <div class="form-floating mb-3">
-            <input id="@registerModel.EmailAddress" class="form-control" name="@registerModel.EmailAddress" type="email" placeholder="Your email..." />
-            <label for="@registerModel.EmailAddress">Email Address</label>
-        </div>
-        <div class="form-floating mb-3">
-            <input id="@registerModel.Password" class="form-control" name="@registerModel.Password" type="password" placeholder="Your password..." />
-            <label for="@registerModel.Password">Password</label>
-        </div>
-        <div class="mb-3">
-            <button type="submit" class="btn btn-primary form-control" onclick="@(async () => await SendRegisterRequest())">Create Account</button>
-        </div>
-        <p class="text-center">Already registered? <a href="/login">Log in</a></p>
-    </form> *@
-</div>
+    </div>
+</Card>
 
 @code {
-    RegisterModel registerModel = new();
+    private RegisterModel registerModel = new();
 
-    async Task SendRegisterRequest()
+    private async Task SendRegisterRequest()
     {
-        _client.DefaultRequestHeaders.Accept.Clear();
-        _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-        var jsonString = JsonSerializer.Serialize(registerModel);
-        var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
-
-        var result = await _client.PostAsync("register", content);
+        var result = await _client.PostAsJsonAsync("User/register", registerModel);
 
         if (result.IsSuccessStatusCode)
         {
-            _navManager.NavigateTo("/");
+            _navigationManager.NavigateTo("/");
         }
         else
         {
-            _navManager.NavigateTo("/register");
+            _navigationManager.NavigateTo("/register");
         }
     }
 }
