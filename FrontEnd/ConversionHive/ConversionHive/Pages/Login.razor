@@ -1,0 +1,76 @@
+﻿@page "/login"
+@using Blazored.LocalStorage;
+@using ConversionHive.Components
+@using ConversionHive.Models
+@using System.Net.Http.Headers;
+@using System.Text.Json;
+@using System.Text;
+@using System.IdentityModel.Tokens.Jwt;
+@using Microsoft.AspNetCore.Components.Authorization;
+@inject HttpClient _client;
+@inject NavigationManager _navigationManager;
+@inject ILocalStorageService _localStorageService;
+@inject AuthenticationStateProvider _authStateProvider
+
+
+<Card Width="col-5">
+    <div>
+        <div class="form-group">
+            <h3 class="text-center fw-bold mb-3">Log in</h3>
+            <EditForm Model="@loginModel" OnValidSubmit="SendRegisterRequest">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <div class="form-floating">
+                    <InputText id="floatingInput" class="form-control mb-3"
+                    @bind-Value="loginModel.EmailAddress" placeholder="Email here" />
+                    <label for="floatingInput">Email</label>
+                </div>
+                <div class="form-floating">
+                    <InputText id="floatingInput" @oninput="RemoveError" class="form-control mb-3"
+                    @bind-Value="loginModel.Password" type="password" placeholder="Password here" />
+                    <label for="floatingInput">Password</label>
+                </div>
+                <div>
+                    <button class="btn btn-primary" type="submit">Login</button>
+                </div>
+                <p>Don't have an account? <a href="/register">Create an account</a></p>
+            </EditForm>
+        </div>
+
+        @if (showError)
+        {
+            <Error Message="@errorMessage" />
+        }
+    </div>
+</Card>
+
+@code {
+    private LoginModel loginModel = new();
+    private bool showError = false;
+    private string? errorMessage = "";
+
+
+    private async Task SendRegisterRequest()
+    {
+        var response = await _client.PostAsJsonAsync("User/login", loginModel);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            showError = true;
+            errorMessage = await response.Content.ReadAsStringAsync();
+            return;
+        }
+
+        var token = await response.Content.ReadAsStringAsync();
+
+        await _localStorageService.SetItemAsync<string>("Token", token);
+        await _authStateProvider.GetAuthenticationStateAsync();
+
+        _navigationManager.NavigateTo("/");
+    }
+
+    private void RemoveError(ChangeEventArgs ev)
+    {
+        showError = false;
+    }
+}
