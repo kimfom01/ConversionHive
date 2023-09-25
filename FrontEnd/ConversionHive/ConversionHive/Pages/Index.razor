@@ -2,7 +2,6 @@
 @using Blazored.LocalStorage;
 @using ConversionHive.Models;
 @inject NavigationManager _navigationManager;
-@inject ILocalStorageService _localStorageService;
 
 <PageTitle>Index</PageTitle>
 
@@ -11,13 +10,5 @@
 Welcome to your new app.
 
 @code {
-    protected override async Task OnInitializedAsync()
-    {
-        var token = await _localStorageService.GetItemAsync<string>("Token");
 
-        if (token is null)
-        {
-            _navigationManager.NavigateTo("/login");
-        }
-    }
 }
