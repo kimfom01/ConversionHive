@@ -1,11 +1,20 @@
 ﻿@page "/fetchdata"
 @inject HttpClient Http
+@using ConversionHive.Components
+@using Microsoft.AspNetCore.Components.Authorization
 
-<PageTitle>Weather forecast</PageTitle>
+<AuthorizeView>
+    <Authorized>
+        <PageTitle>Weather forecast</PageTitle>
 
-<h1>Weather forecast</h1>
+        <h1>Weather forecast</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
+        <p>This component demonstrates fetching data from the server.</p>
+    </Authorized>
+    <NotAuthorized>
+        <RedirectToLogin></RedirectToLogin>
+    </NotAuthorized>
+</AuthorizeView>
 
 @code {
 
