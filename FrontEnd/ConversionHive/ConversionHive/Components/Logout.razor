@@ -11,6 +11,6 @@
     {
         await _authStateProvider.GetAuthenticationStateAsync();
         await _localStorageService.ClearAsync();
-        _navigationManager.NavigateTo("/");
+        _navigationManager.NavigateTo("/", forceLoad: true);
     }
 }
