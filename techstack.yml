@@ -1,0 +1,321 @@
+repo_name: kimfom01/ConversionHive
+report_id: f2a9a9eb2d666a70107da6a728291691
+repo_type: Public
+timestamp: '2023-11-09T17:02:40+00:00'
+requested_by: kimfom01
+provider: github
+branch: main
+detected_tools_count: 24
+tools:
+- name: C#
+  description: Simple, general-purpose, object-oriented programming language for the
+    .NET platform
+  website_url: http://csharp.net
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/1015/1200px-C_Sharp_wordmark.svg.png
+  detection_source: Repo Metadata
+- name: CSS 3
+  description: The latest evolution of the Cascading Style Sheets language
+  website_url: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS3
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/6727/css.png
+  detection_source: Repo Metadata
+- name: ".NET"
+  description: A free, cross-platform, open source developer platform for building
+    many different types of applications
+  website_url: http://www.microsoft.com/net/
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Frameworks (Full Stack)
+  image_url: https://img.stackshare.io/service/1014/IoPy1dce_400x400.png
+  detection_source: Backend/SendMail/SendMail.csproj
+  last_updated_by: Kim Fom
+  last_updated_on: 2023-08-18 05:54:06.000000000 Z
+- name: ".NET Core"
+  description: An Open Source, General-Purpose Development Platform Maintained by
+    Microsoft and the .NET Community
+  website_url: https://docs.microsoft.com/en-us/dotnet/core/
+  version: '7.0'
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Frameworks (Full Stack)
+  image_url: https://img.stackshare.io/service/6403/default_91fc1f0ee315262794273aa1387eaf8fed8436e6.png
+  detection_source_url: Backend/SendMail.Tests/SendMail.Tests.csproj
+  detection_source: FrontEnd/ConversionHive/ConversionHive/ConversionHive.csproj
+  last_updated_by: Kim Fom
+  last_updated_on: 2023-09-25 13:29:23.000000000 Z
+- name: ASP.NET Core
+  description: A cross-platform .NET framework for building modern cloud-based web
+    applications on Windows, Mac, or Linux
+  website_url: docs.microsoft.com/en-us/aspnet/core/
+  version: '7.0'
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Frameworks (Full Stack)
+  image_url: https://img.stackshare.io/service/11331/asp.net-core.png
+  detection_source_url: Backend/SendMail.Tests/SendMail.Tests.csproj
+  detection_source: FrontEnd/ConversionHive/ConversionHive/ConversionHive.csproj
+  last_updated_by: Kim Fom
+  last_updated_on: 2023-09-25 13:29:23.000000000 Z
+- name: PostgreSQL
+  description: A powerful, open source object-relational database system
+  website_url: http://www.postgresql.org/
+  open_source: true
+  hosted_saas: false
+  category: Data Stores
+  sub_category: Databases
+  image_url: https://img.stackshare.io/service/1028/ASOhU5xJ.png
+  detection_source: Backend/SendMail/SendMail.csproj
+  last_updated_by: Kim Fom
+  last_updated_on: 2023-09-25 13:29:23.000000000 Z
+- name: Git
+  description: Fast, scalable, distributed revision control system
+  website_url: http://git-scm.com/
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Version Control System
+  image_url: https://img.stackshare.io/service/1046/git.png
+  detection_source: Repo Metadata
+- name: Moq
+  description: The most popular and friendly mocking framework for .NET
+  website_url: https://github.com/Moq/moq4
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Testing Frameworks
+  image_url: https://img.stackshare.io/service/1628/1434934.png
+  detection_source: Backend/SendMail.Tests/SendMail.Tests.csproj
+  last_updated_by: Kim Fom
+  last_updated_on: 2023-06-01 23:37:24.000000000 Z
+- name: NuGet
+  description: The package manager for .NET
+  website_url: https://www.nuget.org/
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Package Managers
+  image_url: https://img.stackshare.io/service/2637/6I3oEOP4_400x400.jpg
+  detection_source: Backend/SendMail/SendMail.csproj
+  last_updated_by: Kim Fom
+  last_updated_on: 2023-04-21 07:35:29.000000000 Z
+- name: Visual Studio
+  description: State-of-the-art tools and services that you can use to create great
+    apps for devices, the cloud, and everything in between.
+  website_url: http://msdn.microsoft.com/en-us/vstudio/aa718325.aspx
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Integrated Development Environment
+  image_url: https://img.stackshare.io/service/1451/SR2hUhQN.png
+  detection_source: Backend/SendMail.sln
+  last_updated_by: Kim Fom
+  last_updated_on: 2023-06-01 23:37:24.000000000 Z
+- name: xUnit
+  description: An open source, community-focused unit testing tool
+  website_url: http://xunit.github.io/
+  version: 2.5.0
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Testing Frameworks
+  image_url: https://img.stackshare.io/service/3077/ca5a327feb49ddfe1f4b11548907e5a1_400x400.png
+  detection_source_url: Backend/SendMail.Tests/SendMail.Tests.csproj
+  detection_source: Backend/SendMail.Tests/SendMail.Tests.csproj
+  last_updated_by: Kim Fom
+  last_updated_on: 2023-06-01 23:37:24.000000000 Z
+- name: JSON Web Token
+  description: A JSON-based open standard for creating access tokens
+  website_url: http://jwt.io/
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Application Utilities
+  sub_category: User Management and Authentication
+  image_url: https://img.stackshare.io/service/6417/jwt-icon.png
+  detection_source: FrontEnd/ConversionHive/ConversionHive/ConversionHive.csproj
+  last_updated_by: Kim Fom
+  last_updated_on: 2023-09-25 13:29:23.000000000 Z
+- name: AutoMapper.Extensions.Microsoft.DependencyInjection
+  description: AutoMapper extensions for ASP.NET Core
+  package_url: https://www.nuget.org/AutoMapper.Extensions.Microsoft.DependencyInjection
+  version: 12.0.1
+  open_source: false
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/13248/default_3b9faa77d26eef0a944d4dab8d562db23059cb72.png
+  detection_source_url: Backend/SendMail/SendMail.csproj
+  detection_source: Backend/SendMail/SendMail.csproj
+  last_updated_by: Kim Fom
+  last_updated_on: 2023-09-25 13:29:23.000000000 Z
+- name: BCrypt.Net-Next
+  description: A fixed, enhanced and namespace compatible version of BCrypt.Net port
+    of jBCrypt implemented in C#
+  package_url: https://www.nuget.org/BCrypt.Net-Next
+  version: 4.0.3
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/14952/default_a1cf04b1835754674809717530747159e4499835.png
+  detection_source_url: Backend/SendMail/SendMail.csproj
+  detection_source: Backend/SendMail/SendMail.csproj
+  last_updated_by: Kim Fom
+  last_updated_on: 2023-06-26 13:39:58.000000000 Z
+- name: CsvHelper
+  description: A library for reading and writing CSV files
+  package_url: https://www.nuget.org/CsvHelper
+  version: 30.0.1
+  license: MS-PL,Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/13020/default_1075538f3811f68c42abfdf5ebcf152058e4076d.png
+  detection_source_url: Backend/SendMail/SendMail.csproj
+  detection_source: Backend/SendMail/SendMail.csproj
+  last_updated_by: Kim Fom
+  last_updated_on: 2023-06-23 14:34:51.000000000 Z
+- name: Microsoft.AspNetCore.Authentication.JwtBearer
+  description: ASP.NET Core middleware that enables an application to receive an OpenID
+    Connect bearer token
+  package_url: https://www.nuget.org/Microsoft.AspNetCore.Authentication.JwtBearer
+  version: 7.0.11
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/12968/default_dd10728859f7e363ef13345d855b2daba48cace4.png
+  detection_source_url: Backend/SendMail/SendMail.csproj
+  detection_source: Backend/SendMail/SendMail.csproj
+  last_updated_by: Kim Fom
+  last_updated_on: 2023-09-25 13:29:23.000000000 Z
+- name: Microsoft.EntityFrameworkCore.InMemory
+  description: In-memory database provider for Entity Framework Core
+  package_url: https://www.nuget.org/Microsoft.EntityFrameworkCore.InMemory
+  version: 7.0.11
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/13150/default_81ac985912284073db895b0d26abf3657532a164.png
+  detection_source_url: Backend/SendMail/SendMail.csproj
+  detection_source: Backend/SendMail/SendMail.csproj
+  last_updated_by: Kim Fom
+  last_updated_on: 2023-09-25 13:29:23.000000000 Z
+- name: Microsoft.EntityFrameworkCore.Tools
+  description: Entity Framework Core Tools for the NuGet Package Manager Console in
+    Visual Studio
+  package_url: https://www.nuget.org/Microsoft.EntityFrameworkCore.Tools
+  version: 7.0.11
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/13138/default_a057bdad489be3cb053d372a68695da4ac94962d.png
+  detection_source_url: Backend/SendMail/SendMail.csproj
+  detection_source: Backend/SendMail/SendMail.csproj
+  last_updated_by: Kim Fom
+  last_updated_on: 2023-09-25 13:29:23.000000000 Z
+- name: Microsoft.IdentityModel.Tokens
+  description: Includes types that provide support for SecurityTokens
+  package_url: https://www.nuget.org/Microsoft.IdentityModel.Tokens
+  version: 7.0.0
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/13026/default_1075538f3811f68c42abfdf5ebcf152058e4076d.png
+  detection_source_url: Backend/SendMail/SendMail.csproj
+  detection_source: Backend/SendMail/SendMail.csproj
+  last_updated_by: Kim Fom
+  last_updated_on: 2023-09-25 13:29:23.000000000 Z
+- name: Swashbuckle.AspNetCore
+  description: Swagger tools for documenting APIs built on ASP.NET Core
+  package_url: https://www.nuget.org/Swashbuckle.AspNetCore
+  version: 6.5.0
+  license: BSD-3-Clause
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/12981/default_aa8a6e377c22dbeff795489a5ab127b1d597b5ed.png
+  detection_source_url: Backend/SendMail/SendMail.csproj
+  detection_source: Backend/SendMail/SendMail.csproj
+  last_updated_by: Kim Fom
+  last_updated_on: 2023-09-25 13:29:23.000000000 Z
+- name: Swashbuckle.AspNetCore.Filters
+  description: Some additional useful filters for Swashbuckle.AspNetCore
+  package_url: https://www.nuget.org/Swashbuckle.AspNetCore.Filters
+  version: 7.0.11
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/14375/default_6201d4e597174b346fb0490accc0cfd403259bf9.png
+  detection_source_url: Backend/SendMail/SendMail.csproj
+  detection_source: Backend/SendMail/SendMail.csproj
+  last_updated_by: Kim Fom
+  last_updated_on: 2023-09-25 13:29:23.000000000 Z
+- name: System.IdentityModel.Tokens.Jwt
+  description: Includes types that provide support for creating
+  package_url: https://www.nuget.org/System.IdentityModel.Tokens.Jwt
+  version: 7.0.0
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/12920/default_e43fb8cd51d87352a1197706afa527de5c3baecd.png
+  detection_source_url: Backend/SendMail/SendMail.csproj
+  detection_source: FrontEnd/ConversionHive/ConversionHive/ConversionHive.csproj
+  last_updated_by: Kim Fom
+  last_updated_on: 2023-09-25 13:29:23.000000000 Z
+- name: System.Security.Claims
+  description: Provides classes that implement claims-based identity in the .NET Framework,
+    including classes that represent claims, claims-based identities, and claims-based
+    principals
+  package_url: https://www.nuget.org/System.Security.Claims
+  version: 4.3.0
+  open_source: false
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/13113/default_f0c74e534077001eb65a152707758ce46a2dc970.png
+  detection_source_url: Backend/SendMail/SendMail.csproj
+  detection_source: Backend/SendMail/SendMail.csproj
+  last_updated_by: Kim Fom
+  last_updated_on: 2023-09-25 13:29:23.000000000 Z
+- name: xunit.runner.visualstudio
+  description: Visual Studio 2012+ Test Explorer runner for the xUnit.net framework
+  package_url: https://www.nuget.org/xunit.runner.visualstudio
+  version: 2.5.0
+  license: Other
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/13260/default_d2db5a200c4fe2d08cbdb2174cc230708973870b.png
+  detection_source_url: Backend/SendMail.Tests/SendMail.Tests.csproj
+  detection_source: Backend/SendMail.Tests/SendMail.Tests.csproj
+  last_updated_by: Kim Fom
+  last_updated_on: 2023-08-18 05:48:54.000000000 Z
