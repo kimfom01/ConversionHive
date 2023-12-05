@@ -8,7 +8,7 @@ using SendMail.Services;
 using SendMail.Services.Implementations;
 using System.Text;
 
-var corsPolicy = "allow all origins";
+const string corsPolicy = "allow all origins";
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -90,5 +90,10 @@ app.UseCors(corsPolicy);
 app.UseAuthorization();
 
 app.MapControllers();
+
+var context = app.Services.CreateScope()
+    .ServiceProvider.GetRequiredService<SendMailDbContext>();
+
+await context.Database.EnsureCreatedAsync();
 
 app.Run();
