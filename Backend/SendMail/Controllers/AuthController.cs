@@ -7,23 +7,23 @@ namespace SendMail.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UserController : ControllerBase
+public class AuthController : ControllerBase
 {
     private readonly IUserService _userService;
 
-    public UserController(IUserService userService, IConfiguration configuration)
+    public AuthController(IUserService userService, IConfiguration configuration)
     {
         _userService = userService;
     }
 
-    [HttpGet("{id}")]
+    [HttpGet]
     [ProducesResponseType(200)]
     [ProducesResponseType(404)]
     [Authorize(Roles = "Basic, Admin")]
     [ProducesResponseType(401)]
-    public async Task<IActionResult> GetUser(int id)
+    public async Task<IActionResult> GetUser([FromHeader] string authorization)
     {
-        var userDto = await _userService.GetUser(id);
+        var userDto = await _userService.GetUser(authorization);
 
         if (userDto is null)
         {
@@ -47,7 +47,7 @@ public class UserController : ControllerBase
 
         if (userExists)
         {
-            return BadRequest("User alreay exists");
+            return BadRequest("User already exists");
         }
 
         var registeredUser = await _userService.RegisterUser(userRegisterDto);
