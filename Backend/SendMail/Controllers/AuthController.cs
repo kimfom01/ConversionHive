@@ -9,11 +9,11 @@ namespace SendMail.Controllers;
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
-    private readonly IUserService _userService;
+    private readonly IAuthService _authService;
 
-    public AuthController(IUserService userService, IConfiguration configuration)
+    public AuthController(IAuthService authService, IConfiguration configuration)
     {
-        _userService = userService;
+        _authService = authService;
     }
 
     [HttpGet]
@@ -23,7 +23,7 @@ public class AuthController : ControllerBase
     [ProducesResponseType(401)]
     public async Task<IActionResult> GetUser([FromHeader] string authorization)
     {
-        var userDto = await _userService.GetUser(authorization);
+        var userDto = await _authService.GetUser(authorization);
 
         if (userDto is null)
         {
@@ -43,14 +43,14 @@ public class AuthController : ControllerBase
             return BadRequest("Invalid details");
         }
 
-        var userExists = await _userService.CheckUserExists(userRegisterDto.EmailAddress);
+        var userExists = await _authService.CheckUserExists(userRegisterDto.EmailAddress);
 
         if (userExists)
         {
             return BadRequest("User already exists");
         }
 
-        var registeredUser = await _userService.RegisterUser(userRegisterDto);
+        var registeredUser = await _authService.RegisterUser(userRegisterDto);
 
         return CreatedAtAction(nameof(GetUser), new { id = registeredUser.Id }, registeredUser);
     }
@@ -66,19 +66,19 @@ public class AuthController : ControllerBase
             return BadRequest("Invalid details");
         }
 
-        var user = await _userService.GetUser(userLoginDto);
+        var user = await _authService.GetUser(userLoginDto);
 
         if (user is null)
         {
             return NotFound("User does not exist");
         }
 
-        if (!_userService.VerifyUser(userLoginDto.Password, user.PasswordHash))
+        if (!_authService.VerifyUser(userLoginDto.Password, user.PasswordHash))
         {
             return BadRequest("Username or password is wrong");
         }
 
-        var token = _userService.GetToken(user);
+        var token = _authService.GetToken(user);
 
         return Ok(token);
     }

@@ -8,14 +8,14 @@ using System.Text;
 
 namespace SendMail.Services.Implementations;
 
-public class UserService : IUserService
+public class AuthService : IAuthService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly IConfiguration _configuration;
     private readonly IJwtProcessor _jwtProcessor;
 
-    public UserService(
+    public AuthService(
         IUnitOfWork unitOfWork, 
         IMapper mapper, 
         IConfiguration configuration,
@@ -36,11 +36,6 @@ public class UserService : IUserService
         var userDto = _mapper.Map<UserDto>(user);
 
         return userDto;
-    }
-
-    public Task<string> LoginUser(UserLoginDto userLoginDto)
-    {
-        throw new NotImplementedException();
     }
 
     public async Task<User> RegisterUser(UserRegisterDto userRegisterDto)
