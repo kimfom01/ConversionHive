@@ -1,14 +1,22 @@
 ﻿@page "/"
-@using Blazored.LocalStorage;
-@using ConversionHive.Models;
-@inject NavigationManager _navigationManager;
+@inject Blazored.LocalStorage.ILocalStorageService _localStorage;
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1 class="mt-5">Hello, @(FirstName ?? "User")</h1>
 
-Welcome to your new app.
+<h2 class="fw-bold mt-3">Send Mass Email with Custom Templates</h2>
 
 @code {
+    private string? FirstName { get; set; }
 
+    protected override async Task OnInitializedAsync()
+    {
+        await GetFirstName();
+    }
+
+    async Task GetFirstName()
+    {
+        FirstName = await _localStorage.GetItemAsync<string>("FirstName");
+    }
 }
