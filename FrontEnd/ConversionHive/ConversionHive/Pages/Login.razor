@@ -2,15 +2,14 @@
 @using Blazored.LocalStorage;
 @using ConversionHive.Components
 @using ConversionHive.Models
-@using System.Net.Http.Headers;
-@using System.Text.Json;
-@using System.Text;
-@using System.IdentityModel.Tokens.Jwt;
 @using Microsoft.AspNetCore.Components.Authorization;
+@using System.Text.Json
+@using System.Text.Json.Serialization
 @inject HttpClient _client;
 @inject NavigationManager _navigationManager;
 @inject ILocalStorageService _localStorageService;
-@inject AuthenticationStateProvider _authStateProvider
+@inject AuthenticationStateProvider _authStateProvider;
+
 
 
 <Card Width="col-5">
@@ -46,13 +45,13 @@
 
 @code {
     private LoginModel loginModel = new();
-    private bool showError = false;
+    private bool showError;
     private string? errorMessage = "";
 
 
     private async Task SendRegisterRequest()
     {
-        var response = await _client.PostAsJsonAsync("User/login", loginModel);
+        var response = await _client.PostAsJsonAsync("Auth/login", loginModel);
 
         if (!response.IsSuccessStatusCode)
         {
@@ -61,10 +60,14 @@
             return;
         }
 
-        var token = await response.Content.ReadAsStringAsync();
+        var responseStream = await response.Content.ReadAsStreamAsync();
+        var loginResponse = await JsonSerializer.DeserializeAsync<LoginResponse>(responseStream);
 
-        await _localStorageService.SetItemAsync<string>("Token", token);
-        await _authStateProvider.GetAuthenticationStateAsync();
+        if (loginResponse != null)
+        {
+            await _localStorageService.SetItemAsync("token", loginResponse.Token);
+            await _authStateProvider.GetAuthenticationStateAsync();
+        }
 
         _navigationManager.NavigateTo("/");
     }
@@ -72,5 +75,11 @@
     private void RemoveError(ChangeEventArgs ev)
     {
         showError = false;
+    }
+    
+    private class LoginResponse
+    {
+        [JsonPropertyName("token")]
+        public required string Token { get; set; }
     }
 }
