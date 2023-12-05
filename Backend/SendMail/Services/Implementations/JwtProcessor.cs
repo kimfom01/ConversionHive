@@ -12,7 +12,7 @@ public class JwtProcessor : IJwtProcessor
 
         var token = handler.ReadJwtToken(jwt);
 
-        int id = int.Parse(token.Claims.First(cl => cl.Type == "Id").Value);
+        var id = int.Parse(token.Claims.First(cl => cl.Type == "Id").Value);
 
         return id;
     }

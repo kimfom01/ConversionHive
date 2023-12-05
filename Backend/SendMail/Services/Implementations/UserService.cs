@@ -13,16 +13,24 @@ public class UserService : IUserService
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly IConfiguration _configuration;
+    private readonly IJwtProcessor _jwtProcessor;
 
-    public UserService(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration)
+    public UserService(
+        IUnitOfWork unitOfWork, 
+        IMapper mapper, 
+        IConfiguration configuration,
+        IJwtProcessor jwtProcessor)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _configuration = configuration;
+        _jwtProcessor = jwtProcessor;
     }
 
-    public async Task<UserDto> GetUser(int id)
+    public async Task<UserDto?> GetUser(string authorization)
     {
+        var id = _jwtProcessor.ExtractIdFromJwt(authorization);
+        
         var user = await _unitOfWork.Users.GetItem(id);
 
         var userDto = _mapper.Map<UserDto>(user);
@@ -37,7 +45,7 @@ public class UserService : IUserService
 
     public async Task<User> RegisterUser(UserRegisterDto userRegisterDto)
     {
-        string passwordHash = BCrypt.Net.BCrypt.HashPassword(userRegisterDto.Password);
+        var passwordHash = BCrypt.Net.BCrypt.HashPassword(userRegisterDto.Password);
 
         var user = _mapper.Map<User>(userRegisterDto);
 
@@ -54,12 +62,7 @@ public class UserService : IUserService
     {
         var user = await _unitOfWork.Users.GetItem(user => user.EmailAddress == emailAddress);
 
-        if (user is null)
-        {
-            return false;
-        }
-
-        return true;
+        return user is not null;
     }
 
     public async Task<User?> GetUser(UserLoginDto userLoginDto)

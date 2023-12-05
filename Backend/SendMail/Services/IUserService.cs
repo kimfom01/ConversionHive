@@ -4,7 +4,7 @@ namespace SendMail.Services;
 
 public interface IUserService
 {
-    public Task<UserDto> GetUser(int id);
+    public Task<UserDto?> GetUser(string authorization);
     public Task<User> RegisterUser(UserRegisterDto userRegisterDto);
     public Task<string> LoginUser(UserLoginDto userLoginDto);
     public Task<bool> CheckUserExists(string emailAddress);
