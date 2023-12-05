@@ -80,6 +80,6 @@ public class AuthController : ControllerBase
 
         var token = _authService.GetToken(user);
 
-        return Ok(token);
+        return Ok(new { token });
     }
 }
