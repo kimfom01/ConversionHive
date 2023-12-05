@@ -23,14 +23,12 @@ public class CustomAuthStateProvider : AuthenticationStateProvider
     {
         var state = new AuthenticationState(new ClaimsPrincipal());
 
-        string authToken = await _localStorageService.GetItemAsync<string>("Token");
+        string authToken = await _localStorageService.GetItemAsync<string>("token");
 
         if (!string.IsNullOrEmpty(authToken))
         {
-            var userId = ExtractIdFromJwt(authToken);
-
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
-            var userResponse = await _client.GetAsync($"User/{userId}");
+            var userResponse = await _client.GetAsync($"Auth");
 
             if (userResponse.IsSuccessStatusCode)
             {
