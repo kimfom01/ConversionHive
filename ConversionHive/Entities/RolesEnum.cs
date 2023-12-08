@@ -2,7 +2,6 @@
 
 public enum RolesEnum
 {
-    Basic,
     CompanyAdmin,
     SystemAdmin
 }
