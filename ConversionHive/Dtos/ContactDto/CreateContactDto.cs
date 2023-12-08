@@ -2,8 +2,8 @@ namespace ConversionHive.Dtos.ContactDto;
 
 public class CreateContactDto
 {
-    public string FirstName { get; set; } = string.Empty;
-    public string LastName { get; set; } = string.Empty;
-    public string PhoneNumber { get; set; } = string.Empty;
-    public string EmailAddress { get; set; } = string.Empty;
+    public required string FirstName { get; set; }
+    public required string LastName { get; set; }
+    public required string EmailAddress { get; set; }
+    public int CompanyId { get; set; }
 }
