@@ -46,7 +46,7 @@ public abstract class Repository<T> : IRepository<T> where T : class
         return Task.FromResult(items);
     }
 
-    public virtual async Task Remove(int id)
+    public virtual async Task Delete(int id)
     {
         var item = await DbSet.FindAsync(id);
 

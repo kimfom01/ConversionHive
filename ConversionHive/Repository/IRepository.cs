@@ -9,6 +9,6 @@ public interface IRepository<T>
     Task<IQueryable<T>> GetItems(Expression<Func<T, bool>> expression);
     Task<T> AddItem(T item);
     Task AddItems(IEnumerable<T> items);
-    Task Remove(int id);
+    Task Delete(int id);
     Task Update(T item);
 }
