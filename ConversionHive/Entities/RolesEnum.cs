@@ -3,5 +3,6 @@
 public enum RolesEnum
 {
     Basic,
-    Admin
+    CompanyAdmin,
+    SystemAdmin
 }

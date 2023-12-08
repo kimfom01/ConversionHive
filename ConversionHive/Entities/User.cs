@@ -1,12 +1,21 @@
-﻿namespace ConversionHive.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ConversionHive.Entities;
 
 public class User
 {
+    [Key]
     public int Id { get; set; }
-    public string FirstName { get; set; } = string.Empty;
-    public string LastName { get; set; } = string.Empty;
-    public string EmailAddress { get; set; } = string.Empty;
-    public string PasswordHash { get; set; } = string.Empty;
-    public string Role { get; set; } = string.Empty;
-    public IEnumerable<Contact>? Contacts { get; set; }
+    [Required]
+    [Length(2, 50)]
+    public string FirstName { get; set; }
+    [Required]
+    [Length(2, 50)]
+    public string LastName { get; set; }
+    [Required]
+    [Length(2, 50)]
+    public string EmailAddress { get; set; }
+    [Required]
+    public string PasswordHash { get; set; }
+    public string Role { get; set; }
 }

@@ -2,17 +2,21 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ConversionHive.Entities;
 
-public class Contact
+public class MailConfig
 {
     [Key]
     public int Id { get; set; }
-    [Length(2, 50)]
-    public string FirstName { get; set; }
-    [Length(2, 50)]
-    public string LastName { get; set; }
     [Required]
     [Length(2, 50)]
-    public string EmailAddress { get; set; }
+    public string SenderEmail { get; set; }
+    [Required]
+    [Length(2, 50)]
+    public string Password { get; set; }
+    [Required]
+    [Length(2, 50)]
+    public string Server { get; set; }
+    [Required]
+    public short Port { get; set; }
 
     [Required]
     public int CompanyId { get; set; }
