@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
+using ConversionHive.Dtos.ContactDto;
+using ConversionHive.Dtos.User;
 using ConversionHive.Entities;
-using ConversionHive.Models.ContactModels;
 using ConversionHive.Models.Mail;
-using ConversionHive.Models.UserModels;
 
 namespace ConversionHive.Mappings;
 

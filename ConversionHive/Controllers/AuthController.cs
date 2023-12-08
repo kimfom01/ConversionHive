@@ -1,4 +1,4 @@
-﻿using ConversionHive.Models.UserModels;
+﻿using ConversionHive.Dtos.User;
 using ConversionHive.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

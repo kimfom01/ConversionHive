@@ -1,4 +1,4 @@
-using ConversionHive.Models.ContactModels;
+using ConversionHive.Dtos.ContactDto;
 
 namespace ConversionHive.Models.Mail;
 

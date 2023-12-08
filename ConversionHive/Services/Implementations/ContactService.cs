@@ -1,6 +1,6 @@
 using AutoMapper;
+using ConversionHive.Dtos.ContactDto;
 using ConversionHive.Entities;
-using ConversionHive.Models.ContactModels;
 using ConversionHive.Repository;
 
 namespace ConversionHive.Services.Implementations;
@@ -31,12 +31,9 @@ public class ContactService : IContactService
             return null;
         }
 
-        var contacts = _mapper.Map<IEnumerable<Contact>>(contactDtos);
+        var contacts = _mapper.Map<List<Contact>>(contactDtos);
 
-        foreach (var contact in contacts)
-        {
-            contact.UserId = id;
-        }
+        contacts.ForEach(con => con.CompanyId = id);
 
         await _unitOfWork.Contacts.AddItems(contacts);
         await _unitOfWork.SaveChangesAsync();

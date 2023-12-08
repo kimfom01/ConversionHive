@@ -1,6 +1,6 @@
 ﻿using ConversionHive.Entities;
 
-namespace ConversionHive.Models.UserModels;
+namespace ConversionHive.Dtos.User;
 
 public class UserDto
 {

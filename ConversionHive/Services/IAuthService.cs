@@ -1,5 +1,5 @@
-﻿using ConversionHive.Entities;
-using ConversionHive.Models.UserModels;
+﻿using ConversionHive.Dtos.User;
+using ConversionHive.Entities;
 
 namespace ConversionHive.Services;
 

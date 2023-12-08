@@ -1,6 +1,6 @@
 ﻿using ConversionHive.Models.Mail;
 
-namespace ConversionHive.Models.ContactModels;
+namespace ConversionHive.Dtos.ContactDto;
 
 public class ReceiverContactDto
 {

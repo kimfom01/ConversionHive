@@ -1,4 +1,4 @@
-using ConversionHive.Models.ContactModels;
+using ConversionHive.Dtos.ContactDto;
 using ConversionHive.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
