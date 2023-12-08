@@ -1,3 +1,4 @@
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -66,14 +67,13 @@ builder.Services.AddAuthentication()
                                throw new Exception("Jwt security key not found")))
         };
     });
-builder.Services.AddScoped<IMailer, LocalEmailSender>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IMailService, MailService>();
 builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddScoped<ICsvService, CsvService>();
 builder.Services.AddScoped<IJwtProcessor, JwtProcessor>();
-builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddDbContext<SendMailDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("Default") ??
