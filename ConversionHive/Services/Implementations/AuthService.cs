@@ -3,8 +3,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using ConversionHive.Dtos.User;
 using ConversionHive.Entities;
-using ConversionHive.Models.UserModels;
 using ConversionHive.Repository;
 
 namespace ConversionHive.Services.Implementations;
@@ -46,7 +46,7 @@ public class AuthService : IAuthService
         var user = _mapper.Map<User>(userRegisterDto);
 
         user.PasswordHash = passwordHash;
-        user.Role = RolesEnum.Basic.ToString();
+        user.Role = RolesEnum.CompanyAdmin.ToString();
 
         var registeredUser = await _unitOfWork.Users.AddItem(user);
         await _unitOfWork.SaveChangesAsync();
