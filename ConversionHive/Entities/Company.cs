@@ -12,9 +12,8 @@ public class Company
     [Required]
     [Length(2, 20)]
     public string Email { get; set; }
-    [Required]
     [Length(2, 50)]
-    public string PostalAddress { get; set; }
+    public string? PostalAddress { get; set; }
 
     [Required]
     public int UserId { get; set; }
