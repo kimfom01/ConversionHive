@@ -18,9 +18,9 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: corsPolicy,
         policy => policy
-        .AllowAnyOrigin()
-        .AllowAnyMethod()
-        .AllowAnyHeader());
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
 });
 builder.Services.AddSwaggerGen(options =>
 {
@@ -54,12 +54,16 @@ builder.Services.AddAuthentication()
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidIssuer = builder.Configuration.GetValue<string>("Jwt:Issuer"),
-            ValidAudience = builder.Configuration.GetValue<string>("Jwt:Audience"),
+            ValidIssuer = builder.Configuration.GetValue<string>("Jwt:Issuer") ??
+                          throw new Exception("Jwt issuer key not found"),
+            ValidAudience = builder.Configuration.GetValue<string>("Jwt:Audience") ??
+                            throw new Exception("Jwt audience key not found"),
             ValidateIssuerSigningKey = true,
             ValidateAudience = true,
             ValidateIssuer = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetValue<string>("Jwt:Key")!))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding
+                .UTF8.GetBytes(builder.Configuration.GetValue<string>("Jwt:Key") ??
+                               throw new Exception("Jwt security key not found")))
         };
     });
 builder.Services.AddScoped<IMailer, LocalEmailSender>();
@@ -72,7 +76,8 @@ builder.Services.AddScoped<IJwtProcessor, JwtProcessor>();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddDbContext<SendMailDbContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Default") ??
+                      throw new Exception("Connection string not found"));
 });
 
 var app = builder.Build();
