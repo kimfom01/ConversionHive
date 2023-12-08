@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using AutoMapper;
 using ConversionHive.Dtos.Company;
 using ConversionHive.Entities;
