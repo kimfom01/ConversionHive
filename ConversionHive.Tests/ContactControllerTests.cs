@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using ConversionHive.Controllers;
-using ConversionHive.Models.ContactModels;
+using ConversionHive.Dtos.ContactDto;
 using ConversionHive.Services;
 
 namespace ConversionHive.Tests;
