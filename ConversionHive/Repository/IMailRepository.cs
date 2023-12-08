@@ -1,4 +1,4 @@
-using ConversionHive.Models.Mail;
+using ConversionHive.Models;
 
 namespace ConversionHive.Repository;
 

@@ -1,5 +1,5 @@
 using ConversionHive.Data;
-using ConversionHive.Models.Mail;
+using ConversionHive.Models;
 
 namespace ConversionHive.Repository.Implementations;
 

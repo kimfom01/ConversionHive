@@ -1,4 +1,4 @@
-using ConversionHive.Models.Mail;
+using ConversionHive.Models;
 using ConversionHive.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,15 +21,17 @@ public class MailController : ControllerBase
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
     [ProducesResponseType(401)]
-    public async Task<IActionResult> SendMail(MailDto sendMailDto)
+    public async Task<IActionResult> SendMail(Mail mail)
     {
-        var mail = await _mailService.SendMail(sendMailDto);
-
-        if (mail is null)
+        try
         {
-            return BadRequest();
-        }
+            await _mailService.SendMail(mail);
 
-        return Ok("Email Successfully Sent!");
+            return Ok("Email Successfully Sent!");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }
