@@ -1,6 +1,8 @@
-﻿namespace ConversionHive.Services;
+﻿using System.Security.Claims;
+
+namespace ConversionHive.Services;
 
 public interface IJwtProcessor
 {
-    public int ExtractIdFromJwt(string authorization);
+    public Claim ExtractClaimFromJwt(string authorization, string claimType);
 }
