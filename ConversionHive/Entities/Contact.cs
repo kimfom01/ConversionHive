@@ -1,6 +1,4 @@
-using ConversionHive.Models.UserModels;
-
-namespace ConversionHive.Models.ContactModels;
+namespace ConversionHive.Entities;
 
 public class Contact
 {

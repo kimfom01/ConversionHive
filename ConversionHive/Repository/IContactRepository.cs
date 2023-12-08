@@ -1,4 +1,4 @@
-using ConversionHive.Models.ContactModels;
+using ConversionHive.Entities;
 
 namespace ConversionHive.Repository;
 

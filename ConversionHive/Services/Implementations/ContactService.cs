@@ -1,4 +1,5 @@
 using AutoMapper;
+using ConversionHive.Entities;
 using ConversionHive.Models.ContactModels;
 using ConversionHive.Repository;
 

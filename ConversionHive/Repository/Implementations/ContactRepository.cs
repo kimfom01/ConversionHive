@@ -1,5 +1,5 @@
 using ConversionHive.Data;
-using ConversionHive.Models.ContactModels;
+using ConversionHive.Entities;
 
 namespace ConversionHive.Repository.Implementations;
 

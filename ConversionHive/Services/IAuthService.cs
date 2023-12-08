@@ -1,4 +1,5 @@
-﻿using ConversionHive.Models.UserModels;
+﻿using ConversionHive.Entities;
+using ConversionHive.Models.UserModels;
 
 namespace ConversionHive.Services;
 

@@ -1,6 +1,5 @@
-using ConversionHive.Models.ContactModels;
+using ConversionHive.Entities;
 using ConversionHive.Models.Mail;
-using ConversionHive.Models.UserModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace ConversionHive.Data;

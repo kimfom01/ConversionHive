@@ -1,4 +1,4 @@
-﻿namespace ConversionHive.Models.UserModels;
+﻿namespace ConversionHive.Entities;
 
 public enum RolesEnum
 {
