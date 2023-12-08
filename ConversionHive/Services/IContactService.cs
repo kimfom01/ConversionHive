@@ -4,7 +4,7 @@ namespace ConversionHive.Services;
 
 public interface IContactService
 {
-    public Task<IEnumerable<CreateContactResponseDto>?> ProcessContacts(string authorization, Stream fileStream);
-    public Task<CreateContactDto?> GetContact(int id);
-    public Task<CreateContactResponseDto?> PostContact(CreateContactDto? contactDto);
+    public Task<IEnumerable<CreateContactDto>?> ProcessContacts(string authorization, Stream fileStream);
+    public Task<ReadContactDto?> GetContact(int id);
+    public Task<ReadContactDto?> PostContact(CreateContactDto? contactDto);
 }

@@ -24,7 +24,7 @@ public class ContactService : IContactService
         _jwtProcessor = jwtProcessor;
     }
 
-    public async Task<IEnumerable<CreateContactResponseDto>?>
+    public async Task<IEnumerable<CreateContactDto>?>
         ProcessContacts(string authorization, Stream fileStream)
     {
         // TODO: Create enum to hold claim types for different entities??
@@ -48,28 +48,28 @@ public class ContactService : IContactService
         await _unitOfWork.SaveChangesAsync();
 
         var createContactResponseDtos = 
-            _mapper.Map<IEnumerable<CreateContactResponseDto>>(contacts);
+            _mapper.Map<IEnumerable<CreateContactDto>>(contacts);
 
         return createContactResponseDtos;
     }
 
-    public async Task<CreateContactDto?> GetContact(int id)
+    public async Task<ReadContactDto?> GetContact(int id)
     {
         var contact = await _unitOfWork.Contacts.GetItem(id);
 
-        var contactDto = _mapper.Map<CreateContactDto>(contact);
+        var contactDto = _mapper.Map<ReadContactDto>(contact);
 
         return contactDto;
     }
 
-    public async Task<CreateContactResponseDto?> PostContact(CreateContactDto? contactDto)
+    public async Task<ReadContactDto?> PostContact(CreateContactDto? contactDto)
     {
         var contactToSave = _mapper.Map<Contact>(contactDto);
 
         var contact = await _unitOfWork.Contacts.AddItem(contactToSave);
         await _unitOfWork.SaveChangesAsync();
 
-        var contactResponse = _mapper.Map<CreateContactResponseDto>(contact);
+        var contactResponse = _mapper.Map<ReadContactDto>(contact);
 
         return contactResponse;
     }
