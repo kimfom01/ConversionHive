@@ -23,7 +23,7 @@ public class ContactControllerTests
     {
         _contactServices
             .Setup(s => s.PostContact(It.IsAny<CreateContactDto>()))
-            .ReturnsAsync(new Mock<CreateContactResponseDto>().Object);
+            .ReturnsAsync(new Mock<ReadContactDto>().Object);
 
         var result = await _contactController.PostContact(new Mock<CreateContactDto>().Object);
 
@@ -41,7 +41,7 @@ public class ContactControllerTests
     [Fact]
     public async Task GetContact_WhenCalled_ReturnsOkResult()
     {
-        _contactServices.Setup(s => s.GetContact(It.IsAny<int>())).ReturnsAsync(new Mock<CreateContactDto>().Object);
+        _contactServices.Setup(s => s.GetContact(It.IsAny<int>())).ReturnsAsync(new Mock<ReadContactDto>().Object);
 
         var result = await _contactController.GetContact(It.IsAny<int>());
 
@@ -66,7 +66,7 @@ public class ContactControllerTests
         var authorization = "my authorization string";
 
         _contactServices.Setup(c => c.ProcessContacts(It.IsAny<string>(), It.IsAny<Stream>()))
-            .ReturnsAsync(new Mock<IEnumerable<CreateContactResponseDto>>().Object);
+            .ReturnsAsync(new Mock<IEnumerable<CreateContactDto>>().Object);
 
         var result = await _contactController
             .PostMultipleContacts(authorization, formFile.Object);
