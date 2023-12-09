@@ -71,6 +71,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IMailService, MailService>();
 builder.Services.AddScoped<IContactService, ContactService>();
+builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddScoped<ICsvService, CsvService>();
 builder.Services.AddScoped<IJwtProcessor, JwtProcessor>();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
@@ -99,6 +100,7 @@ app.MapControllers();
 var context = app.Services.CreateScope()
     .ServiceProvider.GetRequiredService<SendMailDbContext>();
 
+await context.Database.EnsureDeletedAsync();
 await context.Database.EnsureCreatedAsync();
 
 app.Run();
