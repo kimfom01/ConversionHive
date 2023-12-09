@@ -24,7 +24,7 @@ public class ContactService : IContactService
         _jwtProcessor = jwtProcessor;
     }
 
-    public async Task<IEnumerable<CreateContactDto>?>
+    public async Task<List<ReadContactDto>>
         PostContactsCsv(string authorization, Stream fileStream)
     {
         // TODO: Create enum to hold claim types for different entities??
@@ -37,7 +37,7 @@ public class ContactService : IContactService
 
         if (creatContactCsvDtos is null)
         {
-            return null;
+            return new List<ReadContactDto>();
         }
 
         var contacts = _mapper.Map<List<Contact>>(creatContactCsvDtos);
@@ -48,7 +48,7 @@ public class ContactService : IContactService
         await _unitOfWork.SaveChangesAsync();
 
         var createContactResponseDtos = 
-            _mapper.Map<IEnumerable<CreateContactDto>>(contacts);
+            _mapper.Map<List<ReadContactDto>>(contacts);
 
         return createContactResponseDtos;
     }

@@ -1,11 +1,11 @@
-﻿using ConversionHive.Dtos.User;
+﻿using ConversionHive.Dtos.UserDto;
 using ConversionHive.Entities;
 
 namespace ConversionHive.Services;
 
 public interface IAuthService
 {
-    public Task<UserDto?> GetUser(string authorization);
+    public Task<ReadUserDto?> GetUser(string authorization);
     public Task<User> RegisterUser(UserRegisterDto userRegisterDto);
     public Task<bool> CheckUserExists(string emailAddress);
     public Task<User?> GetUser(UserLoginDto userLoginDto);

@@ -65,8 +65,8 @@ public class ContactControllerTests
         var formFile = new Mock<IFormFile>();
         var authorization = "my authorization string";
 
-        _contactServices.Setup(c => c.ProcessContacts(It.IsAny<string>(), It.IsAny<Stream>()))
-            .ReturnsAsync(new Mock<IEnumerable<CreateContactDto>>().Object);
+        _contactServices.Setup(c => c.PostContactsCsv(It.IsAny<string>(), It.IsAny<Stream>()))
+            .ReturnsAsync(new Mock<List<ReadContactDto>>().Object);
 
         var result = await _contactController
             .PostMultipleContacts(authorization, formFile.Object);
@@ -80,7 +80,7 @@ public class ContactControllerTests
         var formFile = new Mock<IFormFile>();
         var authorization = "my authorization string";
 
-        _contactServices.Setup(c => c.ProcessContacts(It.IsAny<string>(), It.IsAny<Stream>()))
+        _contactServices.Setup(c => c.PostContactsCsv(It.IsAny<string>(), It.IsAny<Stream>()))
             .ReturnsAsync(() => null);
 
         var result = await _contactController

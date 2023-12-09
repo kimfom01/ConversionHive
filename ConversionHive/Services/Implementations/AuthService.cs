@@ -3,7 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using ConversionHive.Dtos.User;
+using ConversionHive.Dtos.UserDto;
 using ConversionHive.Entities;
 using ConversionHive.Repository;
 
@@ -28,7 +28,7 @@ public class AuthService : IAuthService
         _jwtProcessor = jwtProcessor;
     }
 
-    public async Task<UserDto?> GetUser(string authorization)
+    public async Task<ReadUserDto?> GetUser(string authorization)
     {
         var claim = _jwtProcessor.ExtractClaimFromJwt(authorization, "Id");
 
@@ -36,7 +36,7 @@ public class AuthService : IAuthService
 
         var user = await _unitOfWork.Users.GetItem(id);
 
-        var userDto = _mapper.Map<UserDto>(user);
+        var userDto = _mapper.Map<ReadUserDto>(user);
 
         return userDto;
     }
