@@ -7,8 +7,7 @@ namespace ConversionHive.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize(Roles = "Basic, Admin")]
-[ProducesResponseType(401)]
+[Authorize(Roles = "CompanyAdmin, SystemAdmin")]
 public class ContactController : ControllerBase
 {
     private readonly IContactService _contactService;
@@ -22,7 +21,7 @@ public class ContactController : ControllerBase
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
     [ProducesResponseType(401)]
-    public async Task<IActionResult> PostContact(CreateContactDto? contactDto)
+    public async Task<ActionResult<ReadContactDto>> PostContact([FromBody] CreateContactDto? contactDto)
     {
         if (contactDto is null)
         {
@@ -38,25 +37,25 @@ public class ContactController : ControllerBase
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
     [ProducesResponseType(401)]
-    public async Task<IActionResult> PostMultipleContacts([FromHeader] string authorization, [FromForm] IFormFile file)
+    public async Task<ActionResult<ReadContactDto>> PostMultipleContacts([FromHeader] string authorization, [FromForm] IFormFile file)
     {
         var stream = file.OpenReadStream();
 
-        var contacts = await _contactService.ProcessContacts(authorization, stream);
+        var contacts = await _contactService.PostContactsCsv(authorization, stream);
 
-        if (contacts is null)
+        if (contacts.Count == 0)
         {
             return BadRequest();
         }
-
-        return Ok(contacts);
+        
+        return CreatedAtAction(nameof(GetContact), new { id = contacts.First().Id }, contacts);
     }
 
     [HttpGet("{id:int}")]
     [ProducesResponseType(200)]
     [ProducesResponseType(404)]
     [ProducesResponseType(401)]
-    public async Task<IActionResult> GetContact(int id)
+    public async Task<ActionResult<ReadContactDto>> GetContact([FromRoute] int id)
     {
         var contactDto = await _contactService.GetContact(id);
 

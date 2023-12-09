@@ -1,11 +1,13 @@
-using ConversionHive.Dtos.Company;
+using ConversionHive.Dtos.CompanyDto;
 using ConversionHive.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ConversionHive.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize(Roles = "CompanyAdmin, SystemAdmin")]
 public class CompanyController : ControllerBase
 {
     private readonly ICompanyService _companyService;
@@ -43,7 +45,7 @@ public class CompanyController : ControllerBase
         {
             var company = await _companyService.CreateCompany(authorization, createCompanyDto);
 
-            return CreatedAtAction(nameof(GetCompany), new { id = company.Id });
+            return CreatedAtAction(nameof(GetCompany), new { companyId = company.Id }, company);
         }
         catch (Exception ex)
         {
@@ -60,6 +62,60 @@ public class CompanyController : ControllerBase
         try
         {
             await _companyService.UpdateCompany(authorization, updateCompanyDto);
+
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    
+    [HttpPut("name")]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
+    public async Task<IActionResult> PutCompany([FromHeader] string authorization,
+        [FromBody] UpdateCompanyNameDto updateCompanyNameDto)
+    {
+        try
+        {
+            await _companyService.UpdateCompanyName(authorization, updateCompanyNameDto);
+
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    
+    [HttpPut("email")]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
+    public async Task<IActionResult> PutCompany([FromHeader] string authorization,
+        [FromBody] UpdateCompanyEmailDto updateCompanyEmailDto)
+    {
+        try
+        {
+            await _companyService.UpdateCompanyEmail(authorization, updateCompanyEmailDto);
+
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    
+    [HttpPut("postal-address")]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
+    public async Task<IActionResult> PutCompany([FromHeader] string authorization,
+        [FromBody] UpdateCompanyPostalAddressDto updateCompanyPostalAddressDto)
+    {
+        try
+        {
+            await _companyService.UpdateCompanyPostalAddress(authorization, updateCompanyPostalAddressDto);
 
             return NoContent();
         }

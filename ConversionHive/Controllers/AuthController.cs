@@ -1,4 +1,4 @@
-﻿using ConversionHive.Dtos.User;
+﻿using ConversionHive.Dtos.UserDto;
 using ConversionHive.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,9 +17,10 @@ public class AuthController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "CompanyAdmin, SystemAdmin")]
     [ProducesResponseType(200)]
     [ProducesResponseType(404)]
-    [Authorize(Roles = "Basic, Admin")]
+    [ProducesResponseType(403)]
     [ProducesResponseType(401)]
     public async Task<IActionResult> GetUser([FromHeader] string authorization)
     {
@@ -36,13 +37,8 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
-    public async Task<IActionResult> RegisterUser(UserRegisterDto? userRegisterDto)
+    public async Task<IActionResult> RegisterUser([FromBody] UserRegisterDto userRegisterDto)
     {
-        if (userRegisterDto is null)
-        {
-            return BadRequest("Invalid details");
-        }
-
         var userExists = await _authService.CheckUserExists(userRegisterDto.EmailAddress);
 
         if (userExists)
@@ -59,13 +55,8 @@ public class AuthController : ControllerBase
     [ProducesResponseType(200)]
     [ProducesResponseType(404)]
     [ProducesResponseType(400)]
-    public async Task<IActionResult> LoginUser(UserLoginDto? userLoginDto)
+    public async Task<IActionResult> LoginUser([FromBody] UserLoginDto userLoginDto)
     {
-        if (userLoginDto is null)
-        {
-            return BadRequest("Invalid details");
-        }
-
         var user = await _authService.GetUser(userLoginDto);
 
         if (user is null)
