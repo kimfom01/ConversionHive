@@ -1,4 +1,4 @@
-namespace ConversionHive.Dtos.Company;
+namespace ConversionHive.Dtos.CompanyDto;
 
 public class CreateCompanyDto
 {

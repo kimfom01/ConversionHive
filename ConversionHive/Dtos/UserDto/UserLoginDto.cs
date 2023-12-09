@@ -1,4 +1,4 @@
-﻿namespace ConversionHive.Dtos.User;
+﻿namespace ConversionHive.Dtos.UserDto;
 
 public class UserLoginDto
 {

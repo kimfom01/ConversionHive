@@ -1,9 +1,9 @@
-﻿namespace ConversionHive.Dtos.User;
+﻿namespace ConversionHive.Dtos.UserDto;
 
-public class UserRegisterDto
+public class ReadUserDto
 {
+    public int Id { get; set; }
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public string EmailAddress { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
 }
