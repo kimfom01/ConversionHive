@@ -25,22 +25,22 @@ public class ContactService : IContactService
     }
 
     public async Task<IEnumerable<CreateContactDto>?>
-        ProcessContacts(string authorization, Stream fileStream)
+        PostContactsCsv(string authorization, Stream fileStream)
     {
         // TODO: Create enum to hold claim types for different entities??
         var claim = _jwtProcessor.ExtractClaimFromJwt(authorization, "Id"); 
 
         var id = int.Parse(claim.Value);
 
-        var contactDtos =
-            _csvService.ProcessCsv<CreateContactDto>(fileStream);
+        var creatContactCsvDtos =
+            _csvService.ProcessCsv<CreateContactCsvDto>(fileStream);
 
-        if (contactDtos is null)
+        if (creatContactCsvDtos is null)
         {
             return null;
         }
 
-        var contacts = _mapper.Map<List<Contact>>(contactDtos);
+        var contacts = _mapper.Map<List<Contact>>(creatContactCsvDtos);
 
         contacts.ForEach(con => con.CompanyId = id);
 
