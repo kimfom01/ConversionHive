@@ -1,5 +1,5 @@
 using AutoMapper;
-using ConversionHive.Dtos.Company;
+using ConversionHive.Dtos.CompanyDto;
 using ConversionHive.Entities;
 using ConversionHive.Repository;
 
@@ -67,6 +67,60 @@ public class CompanyService : ICompanyService
         }
 
         _mapper.Map(updateCompanyDto, company);
+
+        await _unitOfWork.Companies.Update(company);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task UpdateCompanyName(string authorization, UpdateCompanyNameDto updateCompanyNameDto)
+    {
+        var userId = GetIdFromClaim(authorization, "Id");
+
+        var company = await _unitOfWork.Companies.GetItem(com =>
+            com.Id == updateCompanyNameDto.Id && com.UserId == userId);
+
+        if (company is null)
+        {
+            throw new Exception($"Company with id {updateCompanyNameDto.Id} not found");
+        }
+
+        _mapper.Map(updateCompanyNameDto, company);
+
+        await _unitOfWork.Companies.Update(company);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task UpdateCompanyEmail(string authorization, UpdateCompanyEmailDto updateCompanyEmailDto)
+    {
+        var userId = GetIdFromClaim(authorization, "Id");
+
+        var company = await _unitOfWork.Companies.GetItem(com =>
+            com.Id == updateCompanyEmailDto.Id && com.UserId == userId);
+
+        if (company is null)
+        {
+            throw new Exception($"Company with id {updateCompanyEmailDto.Id} not found");
+        }
+
+        _mapper.Map(updateCompanyEmailDto, company);
+
+        await _unitOfWork.Companies.Update(company);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task UpdateCompanyPostalAddress(string authorization, UpdateCompanyPostalAddressDto updateCompanyPostalAddressDto)
+    {
+        var userId = GetIdFromClaim(authorization, "Id");
+
+        var company = await _unitOfWork.Companies.GetItem(com =>
+            com.Id == updateCompanyPostalAddressDto.Id && com.UserId == userId);
+
+        if (company is null)
+        {
+            throw new Exception($"Company with id {updateCompanyPostalAddressDto.Id} not found");
+        }
+
+        _mapper.Map(updateCompanyPostalAddressDto, company);
 
         await _unitOfWork.Companies.Update(company);
         await _unitOfWork.SaveChangesAsync();
