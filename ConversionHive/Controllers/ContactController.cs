@@ -23,14 +23,9 @@ public class ContactController : ControllerBase
     [ProducesResponseType(401)]
     public async Task<ActionResult<ReadContactDto>> PostContact([FromHeader] string authorization, [FromBody] CreateContactDto? contactDto)
     {
-        if (contactDto is null)
-        {
-            return BadRequest();
-        }
-
         var contact = await _contactService.PostContact(authorization, contactDto);
 
-        return CreatedAtAction(nameof(GetContact), new { id = contact!.Id }, contact);
+        return CreatedAtAction(nameof(GetContact), new { contactId = contact.Id }, contact);
     }
 
     [HttpPost("csv")]
@@ -40,16 +35,23 @@ public class ContactController : ControllerBase
     public async Task<ActionResult<ReadContactDto>> PostMultipleContacts([FromHeader] string authorization,
         [FromForm] IFormFile file)
     {
-        var stream = file.OpenReadStream();
-
-        var contacts = await _contactService.PostContactsCsv(authorization, stream);
-
-        if (contacts.Count == 0)
+        try
         {
-            return BadRequest();
-        }
+            var stream = file.OpenReadStream();
 
-        return CreatedAtAction(nameof(GetContact), new { id = contacts.First().Id }, contacts);
+            var contacts = await _contactService.PostContactsCsv(authorization, stream);
+
+            if (contacts.Count == 0)
+            {
+                return BadRequest();
+            }
+
+            return CreatedAtAction(nameof(GetContact), new { contactId = contacts.First().Id }, contacts);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpGet("{contactId:int}")]
