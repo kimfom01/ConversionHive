@@ -21,14 +21,14 @@ public class ContactController : ControllerBase
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
     [ProducesResponseType(401)]
-    public async Task<ActionResult<ReadContactDto>> PostContact([FromBody] CreateContactDto? contactDto)
+    public async Task<ActionResult<ReadContactDto>> PostContact([FromHeader] string authorization, [FromBody] CreateContactDto? contactDto)
     {
         if (contactDto is null)
         {
             return BadRequest();
         }
 
-        var contact = await _contactService.PostContact(contactDto);
+        var contact = await _contactService.PostContact(authorization, contactDto);
 
         return CreatedAtAction(nameof(GetContact), new { id = contact!.Id }, contact);
     }
@@ -37,7 +37,8 @@ public class ContactController : ControllerBase
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
     [ProducesResponseType(401)]
-    public async Task<ActionResult<ReadContactDto>> PostMultipleContacts([FromHeader] string authorization, [FromForm] IFormFile file)
+    public async Task<ActionResult<ReadContactDto>> PostMultipleContacts([FromHeader] string authorization,
+        [FromForm] IFormFile file)
     {
         var stream = file.OpenReadStream();
 
@@ -47,17 +48,17 @@ public class ContactController : ControllerBase
         {
             return BadRequest();
         }
-        
+
         return CreatedAtAction(nameof(GetContact), new { id = contacts.First().Id }, contacts);
     }
 
-    [HttpGet("{id:int}")]
+    [HttpGet("{contactId:int}")]
     [ProducesResponseType(200)]
     [ProducesResponseType(404)]
     [ProducesResponseType(401)]
-    public async Task<ActionResult<ReadContactDto>> GetContact([FromRoute] int id)
+    public async Task<ActionResult<ReadContactDto>> GetContact([FromHeader] string authorization, [FromRoute] int contactId)
     {
-        var contactDto = await _contactService.GetContact(id);
+        var contactDto = await _contactService.GetContact(authorization, contactId);
 
         if (contactDto is null)
         {
