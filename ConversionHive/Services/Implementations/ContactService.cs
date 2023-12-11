@@ -28,9 +28,9 @@ public class ContactService : IContactService
         PostContactsCsv(string authorization, Stream fileStream)
     {
         // TODO: Create enum to hold claim types for different entities??
-        var claim = _jwtProcessor.ExtractClaimFromJwt(authorization, "Id"); 
+        var userIdClaim = _jwtProcessor.ExtractClaimFromJwt(authorization, "Id");
 
-        var id = int.Parse(claim.Value);
+        var userId = int.Parse(userIdClaim.Value);
 
         var creatContactCsvDtos =
             _csvService.ProcessCsv<CreateContactCsvDto>(fileStream);
@@ -42,29 +42,40 @@ public class ContactService : IContactService
 
         var contacts = _mapper.Map<List<Contact>>(creatContactCsvDtos);
 
-        contacts.ForEach(con => con.CompanyId = id);
+        contacts.ForEach(con => con.UserId = userId);
 
         await _unitOfWork.Contacts.AddItems(contacts);
         await _unitOfWork.SaveChangesAsync();
 
-        var createContactResponseDtos = 
+        var createContactResponseDtos =
             _mapper.Map<List<ReadContactDto>>(contacts);
 
         return createContactResponseDtos;
     }
 
-    public async Task<ReadContactDto?> GetContact(int id)
+    public async Task<ReadContactDto?> GetContact(string authorization, int contactId)
     {
-        var contact = await _unitOfWork.Contacts.GetItem(id);
+        var userIdClaim = _jwtProcessor.ExtractClaimFromJwt(authorization, "Id");
+
+        var userId = int.Parse(userIdClaim.Value);
+
+        var contact = await _unitOfWork.Contacts.GetItem(con =>
+            con.Id == contactId && con.UserId == userId);
 
         var contactDto = _mapper.Map<ReadContactDto>(contact);
 
         return contactDto;
     }
 
-    public async Task<ReadContactDto?> PostContact(CreateContactDto? contactDto)
+    public async Task<ReadContactDto?> PostContact(string authorization, CreateContactDto? contactDto)
     {
+        var userIdClaim = _jwtProcessor.ExtractClaimFromJwt(authorization, "Id");
+
+        var userId = int.Parse(userIdClaim.Value);
+        
         var contactToSave = _mapper.Map<Contact>(contactDto);
+
+        contactToSave.UserId = userId;
 
         var contact = await _unitOfWork.Contacts.AddItem(contactToSave);
         await _unitOfWork.SaveChangesAsync();
