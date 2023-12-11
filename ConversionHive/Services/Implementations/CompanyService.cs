@@ -23,7 +23,7 @@ public class CompanyService : ICompanyService
 
     public async Task<ReadCompanyDto> GetCompany(string authorization, int companyId)
     {
-        var userId = GetIdFromClaim(authorization, "Id");
+        var userId = _jwtProcessor.GetIdFromJwt(authorization);
 
         var company = await _unitOfWork.Companies.GetItem(com =>
             com.UserId == userId);
@@ -40,7 +40,7 @@ public class CompanyService : ICompanyService
 
     public async Task<ReadCompanyDto> CreateCompany(string authorization, CreateCompanyDto createCompanyDto)
     {
-        var userId = GetIdFromClaim(authorization, "Id");
+        var userId = _jwtProcessor.GetIdFromJwt(authorization);
 
         var company = _mapper.Map<Company>(createCompanyDto);
 
@@ -56,7 +56,7 @@ public class CompanyService : ICompanyService
 
     public async Task UpdateCompany(string authorization, UpdateCompanyDto updateCompanyDto)
     {
-        var userId = GetIdFromClaim(authorization, "Id");
+        var userId = _jwtProcessor.GetIdFromJwt(authorization);
 
         var company = await _unitOfWork.Companies.GetItem(com =>
             com.Id == updateCompanyDto.Id && com.UserId == userId);
@@ -74,7 +74,7 @@ public class CompanyService : ICompanyService
 
     public async Task UpdateCompanyName(string authorization, UpdateCompanyNameDto updateCompanyNameDto)
     {
-        var userId = GetIdFromClaim(authorization, "Id");
+        var userId = _jwtProcessor.GetIdFromJwt(authorization);
 
         var company = await _unitOfWork.Companies.GetItem(com =>
             com.Id == updateCompanyNameDto.Id && com.UserId == userId);
@@ -92,7 +92,7 @@ public class CompanyService : ICompanyService
 
     public async Task UpdateCompanyEmail(string authorization, UpdateCompanyEmailDto updateCompanyEmailDto)
     {
-        var userId = GetIdFromClaim(authorization, "Id");
+        var userId = _jwtProcessor.GetIdFromJwt(authorization);
 
         var company = await _unitOfWork.Companies.GetItem(com =>
             com.Id == updateCompanyEmailDto.Id && com.UserId == userId);
@@ -108,9 +108,10 @@ public class CompanyService : ICompanyService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task UpdateCompanyPostalAddress(string authorization, UpdateCompanyPostalAddressDto updateCompanyPostalAddressDto)
+    public async Task UpdateCompanyPostalAddress(string authorization,
+        UpdateCompanyPostalAddressDto updateCompanyPostalAddressDto)
     {
-        var userId = GetIdFromClaim(authorization, "Id");
+        var userId = _jwtProcessor.GetIdFromJwt(authorization);
 
         var company = await _unitOfWork.Companies.GetItem(com =>
             com.Id == updateCompanyPostalAddressDto.Id && com.UserId == userId);
@@ -124,12 +125,5 @@ public class CompanyService : ICompanyService
 
         await _unitOfWork.Companies.Update(company);
         await _unitOfWork.SaveChangesAsync();
-    }
-
-    private int GetIdFromClaim(string authorization, string claimType)
-    {
-        var claim = _jwtProcessor.ExtractClaimFromJwt(authorization, claimType);
-
-        return int.Parse(claim.Value);
     }
 }

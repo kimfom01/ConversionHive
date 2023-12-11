@@ -28,9 +28,7 @@ public class ContactService : IContactService
         PostContactsCsv(string authorization, Stream fileStream)
     {
         // TODO: Create enum to hold claim types for different entities??
-        var userIdClaim = _jwtProcessor.ExtractClaimFromJwt(authorization, "Id");
-
-        var userId = int.Parse(userIdClaim.Value);
+        var userId = _jwtProcessor.GetIdFromJwt(authorization);
 
         var creatContactCsvDtos =
             _csvService.ProcessCsv<CreateContactCsvDto>(fileStream);
@@ -55,9 +53,7 @@ public class ContactService : IContactService
 
     public async Task<ReadContactDto?> GetContact(string authorization, int contactId)
     {
-        var userIdClaim = _jwtProcessor.ExtractClaimFromJwt(authorization, "Id");
-
-        var userId = int.Parse(userIdClaim.Value);
+        var userId = _jwtProcessor.GetIdFromJwt(authorization);
 
         var contact = await _unitOfWork.Contacts.GetItem(con =>
             con.Id == contactId && con.UserId == userId);
@@ -67,11 +63,9 @@ public class ContactService : IContactService
         return contactDto;
     }
 
-    public async Task<ReadContactDto?> PostContact(string authorization, CreateContactDto? contactDto)
+    public async Task<ReadContactDto> PostContact(string authorization, CreateContactDto? contactDto)
     {
-        var userIdClaim = _jwtProcessor.ExtractClaimFromJwt(authorization, "Id");
-
-        var userId = int.Parse(userIdClaim.Value);
+        var userId = _jwtProcessor.GetIdFromJwt(authorization);
         
         var contactToSave = _mapper.Map<Contact>(contactDto);
 

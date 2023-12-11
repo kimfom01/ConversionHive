@@ -30,11 +30,9 @@ public class AuthService : IAuthService
 
     public async Task<ReadUserDto?> GetUser(string authorization)
     {
-        var claim = _jwtProcessor.ExtractClaimFromJwt(authorization, "Id");
+        var userId = _jwtProcessor.GetIdFromJwt(authorization);
 
-        var id = int.Parse(claim.Value);
-
-        var user = await _unitOfWork.Users.GetItem(id);
+        var user = await _unitOfWork.Users.GetItem(userId);
 
         var userDto = _mapper.Map<ReadUserDto>(user);
 
