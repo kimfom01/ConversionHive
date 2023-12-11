@@ -35,7 +35,8 @@ public class MailConfigController : ControllerBase
     }
 
     [HttpPost]
-    [ProducesResponseType(200)]
+    [ProducesResponseType(201)]
+    [ProducesResponseType(400)]
     [ProducesResponseType(404)]
     [ProducesResponseType(403)]
     public async Task<ActionResult<ReadMailConfigDto>> PostMailConfig([FromHeader] string authorization,
@@ -46,6 +47,26 @@ public class MailConfigController : ControllerBase
             var added = await _mailConfigService.PostMailConfig(authorization, createMailConfigDto);
 
             return CreatedAtAction(nameof(GetMailConfig), new { mailConfigId = added.Id }, added);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPut]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
+    [ProducesResponseType(403)]
+    public async Task<IActionResult> PutMailConfig([FromHeader] string authorization,
+        [FromBody] UpdateMailConfigDto updateMailConfigDto)
+    {
+        try
+        {
+            await _mailConfigService.UpdateMailConfig(authorization, updateMailConfigDto);
+
+            return NoContent();
         }
         catch (Exception ex)
         {

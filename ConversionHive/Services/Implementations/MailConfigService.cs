@@ -48,8 +48,13 @@ public class MailConfigService : IMailConfigService
     {
         var userId = _jwtProcessor.GetIdFromJwt(authorization);
 
-        var mailConfig = await _unitOfWork.MailConfigs.GetItem(conf => 
+        var mailConfig = await _unitOfWork.MailConfigs.GetItem(conf =>
             conf.Id == mailConfigId && conf.UserId == userId);
+
+        if (mailConfig is null)
+        {
+            throw new Exception($"Mail config with id = {mailConfigId} not found");
+        }
 
         var readMailConfigDto = _mapper.Map<ReadMailConfigDto>(mailConfig);
 
@@ -61,5 +66,20 @@ public class MailConfigService : IMailConfigService
     public async Task UpdateMailConfig(string authorization, UpdateMailConfigDto updateMailConfigDto)
     {
         var userId = _jwtProcessor.GetIdFromJwt(authorization);
+
+        var mailConfig = await _unitOfWork.MailConfigs.GetItem(conf =>
+            conf.Id == updateMailConfigDto.Id && conf.UserId == userId);
+
+        if (mailConfig is null)
+        {
+            throw new Exception($"Mail config with id = {updateMailConfigDto.Id} not found");
+        }
+
+        _mapper.Map(updateMailConfigDto, mailConfig);
+
+        mailConfig.Password = _encoder.EncodeValue(mailConfig.Password, mailConfig.SenderEmail);
+
+        await _unitOfWork.MailConfigs.Update(mailConfig);
+        await _unitOfWork.SaveChangesAsync();
     }
 }
