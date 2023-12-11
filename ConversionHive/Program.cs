@@ -8,6 +8,8 @@ using ConversionHive.Repository.Implementations;
 using ConversionHive.Services;
 using ConversionHive.Services.Implementations;
 using System.Text;
+using Decoder = ConversionHive.Services.Implementations.Decoder;
+using Encoder = ConversionHive.Services.Implementations.Encoder;
 
 const string corsPolicy = "allow all origins";
 
@@ -72,14 +74,20 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IMailService, MailService>();
 builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();
+builder.Services.AddScoped<IMailConfigService, MailConfigService>();
 builder.Services.AddScoped<ICsvService, CsvService>();
 builder.Services.AddScoped<IJwtProcessor, JwtProcessor>();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+builder.Services.AddTransient<IEncoder, Encoder>(_ =>
+    new Encoder(builder.Configuration.GetValue<string>("Salt") ??
+                throw new Exception("Salt not provided")));
+builder.Services.AddTransient<IDecoder, Decoder>(_ =>
+    new Decoder(builder.Configuration.GetValue<string>("Salt") ??
+                throw new Exception("Salt not provided")));
 builder.Services.AddDbContext<SendMailDbContext>(options =>
-{
     options.UseNpgsql(builder.Configuration.GetConnectionString("Default") ??
-                      throw new Exception("Connection string not found"));
-});
+                      throw new Exception("Connection string not found"))
+);
 
 var app = builder.Build();
 
