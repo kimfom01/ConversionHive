@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ConversionHive.Dtos.CompanyDto;
 using ConversionHive.Dtos.ContactDto;
+using ConversionHive.Dtos.MailConfigDto;
 using ConversionHive.Dtos.UserDto;
 using ConversionHive.Entities;
 
@@ -20,6 +21,9 @@ public class AutoMapperProfile : Profile
         CreateMap<Contact, CreateContactCsvDto>().ReverseMap();
         CreateMap<Contact, ReadContactDto>().ReverseMap();
         CreateMap<Contact, UpdateContactDto>().ReverseMap();
+        CreateMap<MailConfig, CreateMailConfigDto>().ReverseMap();
+        CreateMap<MailConfig, ReadMailConfigDto>().ReverseMap();
+        CreateMap<MailConfig, UpdateMailConfigDto>().ReverseMap();
         CreateMap<User, ReadUserDto>().ReverseMap();
         CreateMap<User, UserLoginDto>().ReverseMap();
         CreateMap<User, UserRegisterDto>().ReverseMap();
