@@ -3,37 +3,34 @@ using System.Net.Mail;
 using System.Security;
 using ConversionHive.Models;
 using FluentEmail.Core;
+using FluentEmail.Razor;
 using FluentEmail.Smtp;
 
 namespace ConversionHive.Services.Implementations;
 
 public class MailService : IMailService
 {
-    private readonly string _username;
-    private readonly SecureString _password;
-    private readonly string _host;
-    private readonly int _port;
-    private readonly SmtpClient _client;
+    private readonly IMailConfigService _mailConfigService;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    private string _username;
+    private SecureString _password;
+    private string _host;
+    private int _port;
+    private SmtpClient _client;
 
-    public MailService(IConfiguration configuration)
+    public MailService(IMailConfigService mailConfigService, IWebHostEnvironment webHostEnvironment)
     {
-        _username = configuration.GetSection("EmailCredentials:username").Value
-                    ?? Environment.GetEnvironmentVariable("USERNAME") ??
-                    throw new Exception("Username not found");
-        _password = GetSecurePassword(configuration.GetSection("EmailCredentials:password").Value
-                                      ?? Environment.GetEnvironmentVariable("PASSWORD") ??
-                                      throw new Exception("Password not found"));
-        _host = configuration.GetSection("EmailCredentials:host").Value
-                ?? Environment.GetEnvironmentVariable("HOST") ??
-                throw new Exception("Host not found");
-        var parsePortResult = int.TryParse(configuration.GetSection("EmailCredentials:port").Value
-                                           ?? Environment.GetEnvironmentVariable("PORT") ??
-                                           throw new Exception("Port not found"), out _port);
-        if (!parsePortResult)
-        {
-            throw new Exception("Invalid port value");
-        }
+        _mailConfigService = mailConfigService;
+        _webHostEnvironment = webHostEnvironment;
+    }
 
+    private async Task InitConfig(string authorization, int companyId)
+    {
+        var mailConfig = await _mailConfigService.GetMailConfig(authorization, companyId);
+        _username = mailConfig.SenderEmail;
+        _password = GetSecurePassword(mailConfig.Password);
+        _host = mailConfig.Host;
+        _port = mailConfig.Port;
         _client = GetClient();
     }
 
@@ -49,17 +46,36 @@ public class MailService : IMailService
         return client;
     }
 
-    public async Task SendMail(Mail mail)
+    public async Task SendMail(string authorization, Mail mail, int companyId)
     {
+        await InitConfig(authorization, companyId);
+
         var sender = new SmtpSender(() => _client);
 
+        // Email.DefaultRenderer = new RazorRenderer();
         Email.DefaultSender = sender;
 
+        // var templateFile = Path.Combine(_webHostEnvironment.WebRootPath, "FirstTemplate.cshtml");
+        
+        //<!DOCTYPE html>
+        // <html lang="en">
+        //   <head>
+        //     <meta charset="UTF-8" />
+        //     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        //     <title>Document</title>
+        //   </head>
+        //   <body>
+        //     Hello @Model.RecipientName,
+        //     <p>@Model.Body</p>
+        //   </body>
+        // </html>
+
         var sendResponse = await Email
-            .From("Sender", "Sender name")
+            .From(_username)
             .To(mail.RecipientEmail)
             .Subject(mail.Subject)
             .Body(mail.Body)
+            // .UsingTemplateFromFile(templateFile, mail)
             .SendAsync();
 
         if (!sendResponse.Successful)
