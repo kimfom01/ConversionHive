@@ -1,0 +1,41 @@
+@model ConversionHive.Models.Mail
+@using FilePath = System.IO.Path;
+@inject IWebHostEnvironment webHostEnvironment
+
+@{
+    var layout = FilePath.Combine(webHostEnvironment.WebRootPath, "FirstTemplate.cshtml");
+    Layout = layout;
+}
+
+<td style="padding:36px 30px 42px 30px;">
+    <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
+        <tr>
+            <td style="padding:0 0 36px 0;color:#153643;">
+                <h1 style="font-size:24px;margin:0 0 20px 0;font-family:Arial,sans-serif;">@Model.RecipientName</h1>
+                <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">@Model.Body</p>
+
+            </td>
+        </tr>
+        <tr>
+            <td style="padding:0;">
+                <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
+                    <tr>
+                        <td style="width:260px;padding:0;vertical-align:top;color:#153643;">
+                            <p style="margin:0 0 25px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">
+                                <img src="https://assets.codepen.io/210284/left.gif" alt="" width="260" style="height:auto;display:block;"/>
+                            </p>
+                            <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">@Model.Body</p>
+                        </td>
+                        <td style="width:20px;padding:0;font-size:0;line-height:0;">&nbsp;</td>
+                        <td style="width:260px;padding:0;vertical-align:top;color:#153643;">
+                            <p style="margin:0 0 25px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">
+                                <img src="https://assets.codepen.io/210284/right.gif" alt="" width="260" style="height:auto;display:block;"/>
+                            </p>
+                            <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">@Model.Body</p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</td>
