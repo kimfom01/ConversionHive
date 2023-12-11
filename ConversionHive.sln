@@ -5,8 +5,6 @@ VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConversionHive", "ConversionHive\ConversionHive.csproj", "{1AB9AE61-8A25-4C11-BA6F-B8654B35B5B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConversionHive.Tests", "ConversionHive.Tests\ConversionHive.Tests.csproj", "{DD46A10B-C812-4D60-9894-CADE9106B023}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{1AB9AE61-8A25-4C11-BA6F-B8654B35B5B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1AB9AE61-8A25-4C11-BA6F-B8654B35B5B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1AB9AE61-8A25-4C11-BA6F-B8654B35B5B9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DD46A10B-C812-4D60-9894-CADE9106B023}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DD46A10B-C812-4D60-9894-CADE9106B023}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DD46A10B-C812-4D60-9894-CADE9106B023}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DD46A10B-C812-4D60-9894-CADE9106B023}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
