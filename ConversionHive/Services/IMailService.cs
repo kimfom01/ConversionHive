@@ -4,5 +4,5 @@ namespace ConversionHive.Services;
 
 public interface IMailService
 {
-    Task SendMail(Mail mail);
+    Task SendMail(string authorization, Mail mail, int companyId);
 }

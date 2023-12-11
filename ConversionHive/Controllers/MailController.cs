@@ -17,15 +17,16 @@ public class MailController : ControllerBase
         _mailService = mailService;
     }
 
-    [HttpPost]
+    [HttpPost("{companyId:int}")]
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
     [ProducesResponseType(401)]
-    public async Task<IActionResult> SendMail(Mail mail)
+    public async Task<IActionResult> SendMail([FromHeader] string authorization, [FromBody] Mail mail,
+        [FromRoute] int companyId)
     {
         try
         {
-            await _mailService.SendMail(mail);
+            await _mailService.SendMail(authorization, mail, companyId);
 
             return Ok("Email Successfully Sent!");
         }
