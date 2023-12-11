@@ -15,16 +15,16 @@ public class MailConfigController : ControllerBase
         _mailConfigService = mailConfigService;
     }
 
-    [HttpGet("{mailConfigId:int}")]
+    [HttpGet("{companyId:int}")]
     [ProducesResponseType(200)]
     [ProducesResponseType(404)]
     [ProducesResponseType(403)]
     public async Task<ActionResult<ReadMailConfigDto>> GetMailConfig([FromHeader] string authorization,
-        [FromRoute] int mailConfigId)
+        [FromRoute] int companyId)
     {
         try
         {
-            var readMailConfigDto = await _mailConfigService.GetMailConfig(authorization, mailConfigId);
+            var readMailConfigDto = await _mailConfigService.GetMailConfig(authorization, companyId);
 
             return Ok(readMailConfigDto);
         }
@@ -40,13 +40,13 @@ public class MailConfigController : ControllerBase
     [ProducesResponseType(404)]
     [ProducesResponseType(403)]
     public async Task<ActionResult<ReadMailConfigDto>> PostMailConfig([FromHeader] string authorization,
-        CreateMailConfigDto createMailConfigDto)
+        [FromBody] CreateMailConfigDto createMailConfigDto)
     {
         try
         {
             var added = await _mailConfigService.PostMailConfig(authorization, createMailConfigDto);
 
-            return CreatedAtAction(nameof(GetMailConfig), new { mailConfigId = added.Id }, added);
+            return CreatedAtAction(nameof(GetMailConfig), new { companyId = added.Id }, added);
         }
         catch (Exception ex)
         {

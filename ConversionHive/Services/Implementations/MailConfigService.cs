@@ -44,16 +44,16 @@ public class MailConfigService : IMailConfigService
         return returnVal;
     }
 
-    public async Task<ReadMailConfigDto> GetMailConfig(string authorization, int mailConfigId)
+    public async Task<ReadMailConfigDto> GetMailConfig(string authorization, int companyId)
     {
         var userId = _jwtProcessor.GetIdFromJwt(authorization);
 
         var mailConfig = await _unitOfWork.MailConfigs.GetItem(conf =>
-            conf.Id == mailConfigId && conf.UserId == userId);
+            conf.UserId == userId && conf.CompanyId == companyId);
 
         if (mailConfig is null)
         {
-            throw new Exception($"Mail config with id = {mailConfigId} not found");
+            throw new Exception($"Mail config not found");
         }
 
         var readMailConfigDto = _mapper.Map<ReadMailConfigDto>(mailConfig);
