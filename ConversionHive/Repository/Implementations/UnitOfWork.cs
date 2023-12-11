@@ -12,11 +12,13 @@ public class UnitOfWork : IUnitOfWork
         Contacts = new ContactRepository(_context);
         Users = new UserRepository(_context);
         Companies = new CompanyRepository(_context);
+        MailConfigs = new MailConfigRepository(_context);
     }
 
     public IContactRepository Contacts { get; }
     public IUserRepository Users { get; }
     public ICompanyRepository Companies { get; set; }
+    public IMailConfigRepository MailConfigs { get; set; }
 
     public void Dispose()
     {
