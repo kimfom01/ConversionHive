@@ -14,7 +14,7 @@ public class MailConfig
     public string Password { get; set; }
     [Required]
     [Length(2, 50)]
-    public string Server { get; set; }
+    public string Host { get; set; }
     [Required]
     public short Port { get; set; }
 
