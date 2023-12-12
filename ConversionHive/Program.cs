@@ -91,7 +91,7 @@ builder.Services.AddDbContext<SendMailDbContext>(options =>
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+// if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
