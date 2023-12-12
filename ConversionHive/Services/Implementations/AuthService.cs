@@ -15,17 +15,20 @@ public class AuthService : IAuthService
     private readonly IMapper _mapper;
     private readonly IConfiguration _configuration;
     private readonly IJwtProcessor _jwtProcessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public AuthService(
         IUnitOfWork unitOfWork,
         IMapper mapper,
         IConfiguration configuration,
-        IJwtProcessor jwtProcessor)
+        IJwtProcessor jwtProcessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _configuration = configuration;
         _jwtProcessor = jwtProcessor;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     public async Task<ReadUserDto?> GetUser(string authorization)
@@ -89,14 +92,11 @@ public class AuthService : IAuthService
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8
-            .GetBytes(_configuration.GetValue<string>("Jwt:Key") ?? 
-                      throw new Exception("Jwt security key not found")));
+            .GetBytes(EnvironmentConfigHelper.GetKey(_configuration, _webHostEnvironment)));
 
-        var issuer = _configuration.GetValue<string>("Jwt:Issuer") ?? 
-                     throw new Exception("Jwt issuer key not found");
+        var issuer = EnvironmentConfigHelper.GetIssuer(_configuration, _webHostEnvironment);
 
-        var audience = _configuration.GetValue<string>("Jwt:Audience") ?? 
-                       throw new Exception("Jwt audience key not found");
+        var audience = EnvironmentConfigHelper.GetAudience(_configuration, _webHostEnvironment);
 
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
 

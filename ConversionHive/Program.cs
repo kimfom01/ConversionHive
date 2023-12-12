@@ -8,6 +8,7 @@ using ConversionHive.Repository.Implementations;
 using ConversionHive.Services;
 using ConversionHive.Services.Implementations;
 using System.Text;
+using ConversionHive;
 using Decoder = ConversionHive.Services.Implementations.Decoder;
 using Encoder = ConversionHive.Services.Implementations.Encoder;
 
@@ -57,16 +58,13 @@ builder.Services.AddAuthentication()
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidIssuer = builder.Configuration.GetValue<string>("Jwt:Issuer") ??
-                          throw new Exception("Jwt issuer key not found"),
-            ValidAudience = builder.Configuration.GetValue<string>("Jwt:Audience") ??
-                            throw new Exception("Jwt audience key not found"),
+            ValidIssuer = EnvironmentConfigHelper.GetIssuer(builder.Configuration, builder.Environment),
+            ValidAudience = EnvironmentConfigHelper.GetAudience(builder.Configuration, builder.Environment),
             ValidateIssuerSigningKey = true,
             ValidateAudience = true,
             ValidateIssuer = true,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding
-                .UTF8.GetBytes(builder.Configuration.GetValue<string>("Jwt:Key") ??
-                               throw new Exception("Jwt security key not found")))
+                .UTF8.GetBytes(EnvironmentConfigHelper.GetKey(builder.Configuration, builder.Environment)))
         };
     });
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -79,23 +77,27 @@ builder.Services.AddScoped<ICsvService, CsvService>();
 builder.Services.AddScoped<IJwtProcessor, JwtProcessor>();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddTransient<IEncoder, Encoder>(_ =>
-    new Encoder(builder.Configuration.GetValue<string>("Salt") ??
-                throw new Exception("Salt not provided")));
+    new Encoder(EnvironmentConfigHelper.GetSalt(builder.Configuration, builder.Environment)));
 builder.Services.AddTransient<IDecoder, Decoder>(_ =>
-    new Decoder(builder.Configuration.GetValue<string>("Salt") ??
-                throw new Exception("Salt not provided")));
+    new Decoder(EnvironmentConfigHelper.GetSalt(builder.Configuration, builder.Environment)));
 builder.Services.AddDbContext<SendMailDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("Default") ??
-                      throw new Exception("Connection string not found"))
+    options.UseNpgsql(EnvironmentConfigHelper.GetConnectionString(builder.Configuration, builder.Environment))
 );
 
 var app = builder.Build();
 
-// if (app.Environment.IsDevelopment())
+var context = app.Services.CreateScope()
+    .ServiceProvider.GetRequiredService<SendMailDbContext>();
+
+if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    await context.Database.EnsureDeletedAsync();
 }
+
+await context.Database.EnsureCreatedAsync();
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -106,10 +108,5 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-var context = app.Services.CreateScope()
-    .ServiceProvider.GetRequiredService<SendMailDbContext>();
-
-await context.Database.EnsureDeletedAsync();
-await context.Database.EnsureCreatedAsync();
 
 app.Run();

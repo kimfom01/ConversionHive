@@ -1,6 +1,4 @@
-﻿using System.Security.Claims;
-
-namespace ConversionHive.Services;
+﻿namespace ConversionHive.Services;
 
 public interface IJwtProcessor
 {
