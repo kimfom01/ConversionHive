@@ -1,11 +1,13 @@
 using ConversionHive.Dtos.MailConfigDto;
 using ConversionHive.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace ConversionHive.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[EnableRateLimiting("fixed-by-ip")]
 public class MailConfigController : ControllerBase
 {
     private readonly IMailConfigService _mailConfigService;

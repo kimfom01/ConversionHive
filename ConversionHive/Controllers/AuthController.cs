@@ -2,11 +2,13 @@
 using ConversionHive.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace ConversionHive.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[EnableRateLimiting("fixed-by-ip")]
 public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;

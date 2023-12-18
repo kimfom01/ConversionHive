@@ -96,17 +96,6 @@ builder.Services.AddRateLimiter(options =>
                 Window = TimeSpan.FromMinutes(1)
             });
     });
-    
-    options.AddPolicy("fixed-by-user", httpContext =>
-    {
-        return RateLimitPartition.GetFixedWindowLimiter(
-            partitionKey: httpContext.User.Identity?.Name?.ToString(),
-            factory: _ => new FixedWindowRateLimiterOptions
-            {
-                PermitLimit = 10,
-                Window = TimeSpan.FromMinutes(1)
-            });
-    });
 });
 
 
@@ -124,6 +113,8 @@ await context.Database.EnsureCreatedAsync();
 
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseRateLimiter();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

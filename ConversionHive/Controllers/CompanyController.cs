@@ -2,12 +2,14 @@ using ConversionHive.Dtos.CompanyDto;
 using ConversionHive.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace ConversionHive.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 [Authorize(Roles = "CompanyAdmin, SystemAdmin")]
+[EnableRateLimiting("fixed-by-ip")]
 public class CompanyController : ControllerBase
 {
     private readonly ICompanyService _companyService;
