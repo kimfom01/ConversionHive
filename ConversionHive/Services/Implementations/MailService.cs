@@ -46,6 +46,7 @@ public class MailService : IMailService
         return client;
     }
 
+    // Add policy to retry sending of mails on failure  
     public async Task SendMail(string authorization, Mail mail, int companyId)
     {
         await InitConfig(authorization, companyId);

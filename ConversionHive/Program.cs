@@ -8,6 +8,7 @@ using ConversionHive.Repository.Implementations;
 using ConversionHive.Services;
 using ConversionHive.Services.Implementations;
 using System.Text;
+using System.Threading.RateLimiting;
 using ConversionHive;
 using Decoder = ConversionHive.Services.Implementations.Decoder;
 using Encoder = ConversionHive.Services.Implementations.Encoder;
@@ -83,6 +84,31 @@ builder.Services.AddTransient<IDecoder, Decoder>(_ =>
 builder.Services.AddDbContext<SendMailDbContext>(options =>
     options.UseNpgsql(EnvironmentConfigHelper.GetConnectionString(builder.Configuration, builder.Environment))
 );
+builder.Services.AddRateLimiter(options =>
+{
+    options.AddPolicy("fixed-by-ip", httpContext =>
+    {
+        return RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: httpContext.Connection.RemoteIpAddress?.ToString(),
+            factory: _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 10,
+                Window = TimeSpan.FromMinutes(1)
+            });
+    });
+    
+    options.AddPolicy("fixed-by-user", httpContext =>
+    {
+        return RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: httpContext.User.Identity?.Name?.ToString(),
+            factory: _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 10,
+                Window = TimeSpan.FromMinutes(1)
+            });
+    });
+});
+
 
 var app = builder.Build();
 
