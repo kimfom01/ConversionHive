@@ -26,7 +26,7 @@ public class CompanyService : ICompanyService
         var userId = _jwtProcessor.GetIdFromJwt(authorization);
 
         var company = await _unitOfWork.Companies.GetItem(com =>
-            com.UserId == userId);
+            com.UserId == userId && com.Id == companyId);
 
         if (company is null)
         {
