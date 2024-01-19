@@ -8,8 +8,9 @@ namespace ConversionHive.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize(Roles = "CompanyAdmin, SystemAdmin")]
+[Authorize(Roles = "CompanyAdmin, SystemAdmin, ")]
 [EnableRateLimiting("fixed-by-ip")]
+[ProducesResponseType(401)]
 public class MailController : ControllerBase
 {
     private readonly IMailService _mailService;

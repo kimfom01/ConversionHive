@@ -10,6 +10,7 @@ namespace ConversionHive.Controllers;
 [Route("api/[controller]")]
 [Authorize(Roles = "CompanyAdmin, SystemAdmin")]
 [EnableRateLimiting("fixed-by-ip")]
+[ProducesResponseType(401)]
 public class ContactController : ControllerBase
 {
     private readonly IContactService _contactService;
