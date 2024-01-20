@@ -31,7 +31,7 @@ public class MailController : ControllerBase
         {
             await _mailService.SendMail(authorization, mail, companyId);
 
-            return Ok("Email Successfully Sent!");
+            return Ok(new { success = true, message = "Email Successfully Sent!" });
         }
         catch (Exception ex)
         {
