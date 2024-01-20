@@ -57,6 +57,21 @@ public class MailService : IMailService
         Email.DefaultSender = sender;
 
         // var templateFile = Path.Combine(_webHostEnvironment.WebRootPath, "FirstTemplate.cshtml");
+
+//          Email.DefaultRenderer = new RazorRenderer();
+//
+          var template = """
+                              Contact Email: @Model.ContactEmail
+                              Contact Name: @Model.ContactName
+                              Subject: @Model.Subject
+                              @Model.Body
+                         """;
+//
+//          var email = Email
+//              .From("bob@hotmail.com")
+//              .To("somedude@gmail.com")
+//              .Subject("woo nuget")
+//              .UsingTemplate(template, mail);
         
         //<!DOCTYPE html>
         // <html lang="en">
@@ -76,7 +91,7 @@ public class MailService : IMailService
             .To(mail.RecipientEmail)
             .Subject(mail.Subject)
             .Body(mail.Body)
-            // .UsingTemplateFromFile(templateFile, mail)
+            .UsingTemplate(template, mail)
             .SendAsync();
 
         if (!sendResponse.Successful)
